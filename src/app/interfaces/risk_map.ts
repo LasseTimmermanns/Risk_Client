@@ -1,7 +1,7 @@
-import { Territory } from "./territory"
+import { TerritoryInterface } from "./territory"
 
 export interface RiskMap {
-  territories: Territory[]
+  territories: TerritoryInterface[]
   width: string
   height: string
   name: string

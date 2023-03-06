@@ -4,12 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TerritoryComponent } from './territory/territory.component';
+import { RiskMapComponent } from './components/risk-map/risk-map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TerritoryComponent
+    RiskMapComponent
   ],
   imports: [
     BrowserModule,
