@@ -1,3 +1,10 @@
 <svg  [attr.viewBox]="'0 0 ' + riskMapInterface?.width + ' ' + riskMapInterface?.height">
-  <path *ngFor="let territory of riskMapInterface?.territories" [attr.id]="territory.name" [attr.d]="territory.path" fill="aqua" fill-rule="evenodd" clip-rule="evenodd" stroke="black" stroke-miterlimit="4.32165" />
+  <path
+  *ngFor="let territory of riskMapInterface?.territories"
+  [attr.id]="territory.name"
+  [attr.d]="territory.path"
+  class="territory-basic"
+  (mouseover)="onTerritoryHover($event)"
+  (mouseout)="onTerritoryUnhover($event)"
+  />
 </svg>

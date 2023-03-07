@@ -10,4 +10,19 @@ export class RiskMapComponent {
 
   @Input() riskMapInterface?: RiskMap;
 
+
+  printName(name: string){
+    console.log(name)
+  }
+
+  onTerritoryHover(event : MouseEvent){
+    const mytarget = <SVGPathElement> event.target
+    mytarget.classList.add("territory-hovered")
+   }
+
+  onTerritoryUnhover(event : MouseEvent){
+    const mytarget = <SVGPathElement> event.target
+    mytarget.classList.remove("territory-hovered")
+  }
+
 }
