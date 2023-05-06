@@ -1,6 +1,13 @@
 <svg [attr.width]="map?.width"
   [attr.height]="map?.height"
-  [attr.viewBox]="'0 0 ' + map?.height + ' ' + map?.width">
+  [attr.viewBox]="'0 0 ' + map?.width + ' ' + map?.height"
+  [attr.fill]="'none'"
+  [attr.xmlns]="'http://www.w3.org/2000/svg'">
 
-  <app-territory *ngFor="let territory of map?.territories" [territory]="territory"></app-territory>
+  <path
+    *ngFor="let territory of map?.territories"
+    [attr.d]="territory.path"
+    [attr.fill]="'white'"
+    [attr.stroke]="'black'"
+    [attr.stroke-miterlimit]="'4.32165'"/>
 </svg>

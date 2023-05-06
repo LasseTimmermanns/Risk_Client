@@ -1,10 +1,10 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TerritoryComponent } from './Components/game/map/territory/territory.component';
 import { MapComponent } from './Components/game/map/map.component';
 import { SettingsComponent } from './Components/settings/settings.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,7 +18,6 @@ const allRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    TerritoryComponent,
     MapComponent,
     SettingsComponent,
     GameComponent
@@ -30,6 +29,7 @@ const allRoutes: Routes = [
     HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
