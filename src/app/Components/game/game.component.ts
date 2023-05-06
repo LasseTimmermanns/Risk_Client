@@ -14,6 +14,7 @@ export class GameComponent{
   constructor(private mapService : MapService){
     this.mapService.map("classic").subscribe((curmap) => {
       this.map = curmap;
+      console.log(curmap)
     });
   }
 

@@ -1,13 +1,17 @@
-<svg [attr.width]="map?.width"
-  [attr.height]="map?.height"
+<div class="container">
+<svg [attr.width]="'100%'"
+  [attr.height]="'100%'"
   [attr.viewBox]="'0 0 ' + map?.width + ' ' + map?.height"
+  [ngStyle]="map && {'paddingBottom': map.height / map.width * 100 + '%'}"
   [attr.fill]="'none'"
   [attr.xmlns]="'http://www.w3.org/2000/svg'">
 
   <path
     *ngFor="let territory of map?.territories"
+    [attr.name]="territory.name"
     [attr.d]="territory.path"
     [attr.fill]="'white'"
     [attr.stroke]="'black'"
     [attr.stroke-miterlimit]="'4.32165'"/>
 </svg>
+</div>

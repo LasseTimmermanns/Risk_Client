@@ -12,6 +12,7 @@ export class MapComponent {
 
   @Input() map?: Map;
 
+
   constructor(){}
 
 }
