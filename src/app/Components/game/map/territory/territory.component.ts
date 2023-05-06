@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Territory } from './territory';
 
 @Component({
   selector: 'app-territory',
@@ -6,8 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./territory.component.scss']
 })
 export class TerritoryComponent{
-  @Input("path")
-  path!: string;
 
+  @Input() territory?: Territory;
 
 }

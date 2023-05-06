@@ -1,0 +1,6 @@
+<svg [attr.width]="map?.width"
+  [attr.height]="map?.height"
+  [attr.viewBox]="'0 0 ' + map?.height + ' ' + map?.width">
+
+  <app-territory *ngFor="let territory of map?.territories" [territory]="territory"></app-territory>
+</svg>

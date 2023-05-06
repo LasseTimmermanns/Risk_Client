@@ -1,4 +1,4 @@
-import { Territory } from "../territory/territory";
+import { Territory } from "./territory/territory";
 
 export class Map{
   width: number;
