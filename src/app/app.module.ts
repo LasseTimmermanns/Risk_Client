@@ -10,10 +10,12 @@ import { MapComponent } from './Components/game/map/map.component';
 import { SettingsComponent } from './Components/settings/settings.component';
 import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './Components/game/game.component';
+import { LobbyComponent } from './Components/lobby/lobby.component';
 
 const allRoutes: Routes = [
   {path: "", component: SettingsComponent},
-  {path: "game", component: GameComponent}
+  {path: "game", component: GameComponent},
+  {path: "lobby/:id", component: LobbyComponent}
 ];
 
 @NgModule({
@@ -22,6 +24,7 @@ const allRoutes: Routes = [
     MapComponent,
     GameComponent,
     SettingsComponent,
+    LobbyComponent,
   ],
   imports: [
     RouterModule.forRoot(allRoutes),
