@@ -1,1 +1,15 @@
-<p>settings works!</p>
+<div class="main">
+  <div class="lobbies">La</div>
+  <form class="create" (ngSubmit)="onSubmit()" #creationForm="ngForm">
+    <h1>Create Game</h1>
+
+    <label class="form-control input">
+      Spielname
+      <input type="email" name="email" required ngModel>
+    </label>
+
+    <label class="form-control submit">
+      <button type="submit">Lobby eröffnen</button>
+    </label>
+  </form>
+</div>

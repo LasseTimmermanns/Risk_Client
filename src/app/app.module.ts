@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,14 +20,15 @@ const allRoutes: Routes = [
   declarations: [
     AppComponent,
     MapComponent,
+    GameComponent,
     SettingsComponent,
-    GameComponent
   ],
   imports: [
     RouterModule.forRoot(allRoutes),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
