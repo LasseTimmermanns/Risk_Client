@@ -12,4 +12,21 @@
       <button type="submit">Lobby eröffnen</button>
     </label>
   </form>
+  <form class="create" (ngSubmit)="onSubmit()" #creationForm="ngForm">
+    <h1>Personal Information</h1>
+
+    <label class="form-control input">
+      Name
+      <input type="text" name="text" required ngModel>
+    </label>
+
+    <label class="form-control input">
+      Name
+      <input type="color" name="color" required ngModel>
+    </label>
+
+    <label class="form-control submit">
+      <button type="submit">Lobby eröffnen</button>
+    </label>
+  </form>
 </div>
