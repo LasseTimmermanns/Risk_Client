@@ -1,0 +1,72 @@
+:host{
+  width: 100%;
+  height: 100%;
+  background-image: url("./../../../assets/ocean_background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header{
+  min-width: 30%;
+  height: 30px;
+  background-color: #A57925;
+  font-family: 'Sigmar';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 30px;
+  padding: 10px;
+  color: #FFD583;
+  border: #FFD583 solid 10px;
+}
+
+.lobbies{
+  width: 80%;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lobby{
+  background-color: #86DEF6;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 40% repeat(4, 15%);
+  transform: skewX(-30deg);
+  padding: 6px;
+  color: white;
+  border: #006D8C solid 20px;
+  // box-shadow: 0 30px 40px #006D8C;
+  width: 100%;
+  margin: 10px;
+}
+
+.lobby *{
+  transform: initial;
+  transform: skewX(30deg);
+  color: #006D8C;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.big{
+  font-size: 32px;
+  font-weight: 800;
+  font-family: 'Sigmar';
+}
+
+.small{
+  font-size: 24px;
+  font-family: 'Londrina Solid', cursive;
+  font-weight: 400;
+  text-align: center;
+}
+
+

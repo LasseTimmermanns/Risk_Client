@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Lobby } from './Lobby';
+import { DisplayLobby } from '../../Components/search/DisplayLobby';
 import { globals } from 'src/app/globals';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class SearchService {
   constructor(private httpClient : HttpClient) { }
 
   getLobbies(){
-    return this.httpClient.get<Lobby>(`${globals.spring_server}/lobbies/getall`);
+    return this.httpClient.get<DisplayLobby[]>(`${globals.spring_server}/lobbies/getall`);
   }
 
 }
