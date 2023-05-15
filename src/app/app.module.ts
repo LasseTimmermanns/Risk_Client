@@ -11,13 +11,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './Components/game/game.component';
 import { LobbyComponent } from './Components/lobby/lobby.component';
 import { LandingComponent } from './Components/landing/landing.component';
-import { CreateComponent } from './Components/create/create.component';
 import { SearchComponent } from './Components/search/search.component';
 
 const allRoutes: Routes = [
   {path: "", component: LandingComponent},
   {path: "search", component: SearchComponent},
-  {path: "create", component: CreateComponent},
   {path: "game", component: GameComponent},
   {path: "lobby/:id", component: LobbyComponent}
 ];
@@ -29,7 +27,6 @@ const allRoutes: Routes = [
     GameComponent,
     LobbyComponent,
     LandingComponent,
-    CreateComponent,
     SearchComponent,
   ],
   imports: [
