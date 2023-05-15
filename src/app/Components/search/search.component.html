@@ -1,12 +1,5 @@
 <div class="header">Search Games</div>
 <ul class="lobbies">
-  <li class="lobby">
-    <p class="big">General Grievous</p>
-    <p class="small">Classic</p>
-    <p class="small">Fixed</p>
-    <p class="small">60</p>
-    <p class="small">5 / 6</p>
-  </li>
   <li class="lobby" *ngFor="let lobby of lobbies">
     <p class="big">{{lobby.host}}</p>
     <p class="small">{{lobby.mapId}}</p>
@@ -15,5 +8,3 @@
     <p class="small">{{lobby.playerCount}} / {{lobby.maxPlayers}}</p>
   </li>
 </ul>
-
-<!-- Map; Players; MaxPlayers; Host -->

@@ -14,7 +14,6 @@ export class SearchComponent {
   constructor(private searchService: SearchService){
     searchService.getLobbies().subscribe(lobbies=>{
       this.lobbies = lobbies;
-      console.log(lobbies);
     });
   }
 
