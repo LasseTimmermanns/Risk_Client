@@ -44,6 +44,13 @@
   // box-shadow: 0 30px 40px #006D8C;
   width: 100%;
   margin: 10px;
+  opacity: 0.75;
+  user-select: none;
+}
+
+.lobby:hover{
+  opacity: 1;
+  cursor: pointer;
 }
 
 .lobby *{
@@ -53,7 +60,6 @@
   margin: 0;
   display: flex;
   align-items: center;
-  text-transform: capitalize;
 }
 
 .big{
@@ -67,6 +73,7 @@
   font-family: 'Londrina Solid', cursive;
   font-weight: 400;
   text-align: center;
+  text-transform: capitalize;
 }
 
 
