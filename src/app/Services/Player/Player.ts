@@ -1,11 +1,13 @@
+import { Color } from "../Settings/Color";
+
 export class Player{
   name: string;
-  color: string;
+  color: Color;
   territories: number[];
 
-  constructor(cname: string, ccolor: string, cterritories: number[]){
-    this.name = cname;
-    this.color = ccolor;
-    this.territories = cterritories;
+  constructor(name: string, color: Color, territories: number[]){
+    this.name = name;
+    this.color = color;
+    this.territories = territories;
   }
 }

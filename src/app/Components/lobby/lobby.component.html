@@ -1,10 +1,34 @@
 <div class="creation">
-  <div class="content">
-    <div class="players" *ngIf="drawPlayers">Players</div>
-    <div class="settings" *ngIf="!drawPlayers">Settings</div>
+  <div class="content" #content>
+    <div class="players" [style.display]="drawPlayers ? 'grid' : 'none'" >
+      <div class="player" *ngFor="let player of sortedPlayers">
+        <p class="playername">{{player.name}}</p>
+      </div>
+    </div>
+    <div class="settings" [style.display]="drawPlayers ? 'block' : 'none'">Settings</div>
   </div>
-  <div class="displaySettings">DisplaySettings</div>
-  <div class="switchView">SwitchView</div>
+  <div class="displaySettings">
+    <div class="attribute">
+      <p class="title">Map</p>
+      <p class="value">{{lobby?.mapId}}</p>
+    </div>
+
+    <div class="attribute">
+      <p class="title">Turntimer</p>
+      <p class="value">{{lobby?.turnTimer}} s</p>
+    </div>
+
+    <div class="attribute">
+      <p class="title">Card Bonus</p>
+      <p class="value">{{lobby?.cardBonus}}</p>
+    </div>
+
+
+  </div>
+  <div class="switchView">
+    <img src="../../../assets/settings.svg" *ngIf="drawPlayers" class="switch-icon" (click)="switchView()">
+    <img src="../../../assets/players.svg" *ngIf="!drawPlayers" class="switch-icon" (click)="switchView()">
+  </div>
 
 
 </div>

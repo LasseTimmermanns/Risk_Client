@@ -1,4 +1,4 @@
-:host{
+:host {
   width: 100%;
   height: 100%;
   background-image: url("../../../assets/lobby_background.jpg");
@@ -11,12 +11,11 @@
   margin: 0;
 }
 
-
-.creation{
-  min-width: 40%;
+.creation {
+  width: 40%;
   min-height: 80%;
   background-color: black;
-  opacity: 0.8;
+  opacity: 0.95;
   display: grid;
   grid-template-rows: calc(100% - 100px) 100px;
   grid-template-columns: calc(100% - 100px) 100px;
@@ -25,17 +24,72 @@
     "displaysettings switchView";
 }
 
-.switchView{
+.switchView {
   grid-area: switchView;
-  background-color: greenyellow;
+  background-color: rgb(137, 0, 27);
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+  align-items: center;
 }
 
-.content{
+.switch-icon {
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  border-radius: 20px;
+}
+
+.switch-icon:hover {
+  width: 110%;
+  height: 110%;
+}
+
+.content {
   grid-area: content;
   background-color: aqua;
 }
 
-.displaySettings{
+.displaySettings {
   grid-area: displaysettings;
-  background-color: orange;
+  background-color: rgb(137, 0, 27);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+  overflow: auto;
+}
+
+.attribute {
+  background-color: rgb(185, 1, 39);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  min-height: min-content; /* needs vendor prefixes */
+}
+
+.title,
+.value {
+  text-align: center;
+  margin: 0;
+}
+
+.title::after {
+  content: ":";
+}
+
+.title {
+  color: rgb(195, 195, 195);
+  font-family: "Londrina Solid", cursive;
+  font-size: 22px;
+}
+
+.value {
+  font-family: "Sigmar", cursive;
+  font-size: 32px;
+  color: white;
+  text-transform: capitalize;
 }
