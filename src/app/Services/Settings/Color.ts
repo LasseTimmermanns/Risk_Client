@@ -1,6 +1,6 @@
 export class Color{
-  private hex : string;
-  private name : string;
+  public hex : string;
+  public name : string;
 
   constructor(hex : string, name : string){
     this.hex = hex;

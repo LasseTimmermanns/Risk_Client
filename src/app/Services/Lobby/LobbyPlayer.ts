@@ -1,11 +1,13 @@
+import { Color } from "../Settings/Color";
+
 export class LobbyPlayer{
-  color: string;
+  color: Color;
   name: string;
   position: number;
 
-  constructor(ccolor: string, cname: string, cposition: number){
-    this.color = ccolor;
-    this.name = cname;
-    this.position = cposition;
+  constructor(color: Color, name: string, position: number){
+    this.color = color;
+    this.name = name;
+    this.position = position;
   }
 }

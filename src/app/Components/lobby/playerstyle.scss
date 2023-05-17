@@ -3,13 +3,11 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px;
-  background-color: green;
   width: calc(100% - 40px);
   height: calc(100% - 40px);
 }
 
 .player{
-  background-color: beige;
   display: flex;
   align-items: center;
   justify-content: center;

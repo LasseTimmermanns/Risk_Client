@@ -21,13 +21,13 @@ export class LobbyComponent {
 
   constructor(private route: ActivatedRoute, private router: Router, private elem: ElementRef){}
 
-  // ngAfterViewInit(): void {
-  //   this.route.params.subscribe(params=>{
-  //     this.socket = this.connect(params['lobbyid'], "lasse");
-  //     this.receiveMessages(this.socket);
-  //     this.redirectOnSocketClose(this.socket);
-  //   })
-  // }
+  ngAfterViewInit(): void {
+    this.route.params.subscribe(params=>{
+      this.socket = this.connect(params['lobbyid'], "lasse");
+      this.receiveMessages(this.socket);
+      this.redirectOnSocketClose(this.socket);
+    })
+  }
 
   connect(lobbyid: string, playername: string): WebSocket {
     return new WebSocket(`ws://localhost:8080/lobby?lobby=${lobbyid}&playername=${playername}`);

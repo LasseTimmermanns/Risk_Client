@@ -1,7 +1,7 @@
 <div class="creation">
   <div class="content" #content>
     <div class="players" [style.display]="drawPlayers ? 'grid' : 'none'" >
-      <div class="player" *ngFor="let player of sortedPlayers">
+      <div class="player" *ngFor="let player of sortedPlayers" [style.background-color]="player.color.hex">
         <p class="playername">{{player.name}}</p>
       </div>
       <div class="slot" *ngFor="let slot of openSlots"></div>
