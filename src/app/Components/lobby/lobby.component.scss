@@ -18,57 +18,40 @@
   opacity: 0.95;
   display: grid;
   grid-template-rows: calc(100% - 100px) 100px;
-  grid-template-columns: calc(100% - 100px) 100px;
+  grid-template-columns: 100%;
   grid-template-areas:
-    "content content"
-    "displaysettings switchView";
+    "content"
+    "actionbar";
 }
 
-.switchView {
-  grid-area: switchView;
-  background-color: rgb(137, 0, 27);
+.actionbar{
+  grid-area: actionbar;
   display: flex;
+  flex: 1;
+  padding: 20px;
+}
+
+.actionbar div{
+  display: flex;
+  flex-grow: 1;
   justify-content: center;
-  padding: 10%;
   align-items: center;
 }
 
-.switch-icon {
+.actionbar div img{
   width: 100%;
   height: 100%;
-  opacity: 0.9;
-  border-radius: 20px;
+  transition: all 0.2s;
 }
 
-.switch-icon:hover {
-  width: 110%;
-  height: 110%;
+.actionbar div img:hover{
+  width: 130%;
+  height: 130%;
 }
 
-.content {
+
+.content{
   grid-area: content;
-  background-color: aqua;
-}
-
-.displaySettings {
-  grid-area: displaysettings;
-  background-color: rgb(137, 0, 27);
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex: 1;
-  overflow: auto;
-}
-
-.attribute {
-  background-color: rgb(185, 1, 39);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
-  min-height: min-content; /* needs vendor prefixes */
 }
 
 .title,

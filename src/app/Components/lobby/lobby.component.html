@@ -8,28 +8,14 @@
     </div>
     <div class="settings" [style.display]="drawPlayers ? 'block' : 'none'">Settings</div>
   </div>
-  <div class="displaySettings">
-    <div class="attribute">
-      <p class="title">Map</p>
-      <p class="value">{{lobby?.mapId}}</p>
-    </div>
-
-    <div class="attribute">
-      <p class="title">Turntimer</p>
-      <p class="value">{{lobby?.turnTimer}} s</p>
-    </div>
-
-    <div class="attribute">
-      <p class="title">Card Bonus</p>
-      <p class="value">{{lobby?.cardBonus}}</p>
-    </div>
-
-
+  <div class="actionbar">
+    <div><img src="../../../assets/leave.svg"></div>
+    <div><img src="../../../assets/invite.svg"></div>
+    <div><img src="../../../assets/run.svg"></div>
+    <div><img src="../../../assets/visible.svg"></div>
+    <div><img src="../../../assets/settings.svg"></div>
   </div>
-  <div class="switchView">
-    <img src="../../../assets/settings.svg" *ngIf="drawPlayers" class="switch-icon" (click)="switchView()">
-    <img src="../../../assets/players.svg" *ngIf="!drawPlayers" class="switch-icon" (click)="switchView()">
-  </div>
+
 
 
 </div>
