@@ -17,7 +17,7 @@ const allRoutes: Routes = [
   {path: "", component: LandingComponent},
   {path: "search", component: SearchComponent},
   {path: "game", component: GameComponent},
-  {path: "lobby/:id", component: LobbyComponent}
+  {path: "lobby/:lobbyid", component: LobbyComponent}
 ];
 
 @NgModule({
