@@ -6,7 +6,7 @@
       </div>
       <div class="slot" *ngFor="let slot of openSlots"></div>
     </div>
-    <div class="settings" [style.display]="drawPlayers ? 'block' : 'none'">Settings</div>
+    <div class="settings" [style.display]="!drawPlayers ? 'block' : 'none'">Settings</div>
   </div>
   <div class="actionbar">
     <div><img src="../../../assets/leave.svg"></div>
