@@ -13,6 +13,7 @@ export class LobbyComponent {
   drawPlayers: boolean = true;
   lobby?: Lobby;
   sortedPlayers: LobbyPlayer[] = [];
+  openSlots: number[] = [];
   token: string = "";
   socket!: WebSocket;
 
@@ -79,20 +80,23 @@ export class LobbyComponent {
   joinAccepted(data: Lobby){
     this.lobby = data;
     this.sortedPlayers = this.createSortedPlayers(data);
+    this.updateOpenSlots();
     this.adjustPlayerNameFontSizes();
   }
 
   playerJoin(data: LobbyPlayer){
     this.lobby?.players.push(data);
+    this.updateOpenSlots();
   }
 
   playerQuit(data: any){
     let playername = data.playername;
     const index = this.lobby?.players.findIndex((player) => player.name === playername);
 
-    if (index != -1) {
+    if (index != -1)
       this.lobby?.players.splice(index!, 1);
-    }
+
+    this.updateOpenSlots();
   }
 
   createSortedPlayers(lobby: Lobby){
@@ -103,6 +107,10 @@ export class LobbyComponent {
     return players;
   }
 
+  updateOpenSlots(){
+    let openSlotsN = this.lobby!.maxPlayers - this.lobby!.players.length;
+    this.openSlots = Array(openSlotsN).fill(0);
+  }
 
   adjustPlayerNameFontSizes(){
     console.log("Adjusting FontSizes")

@@ -4,6 +4,7 @@
       <div class="player" *ngFor="let player of sortedPlayers">
         <p class="playername">{{player.name}}</p>
       </div>
+      <div class="slot" *ngFor="let slot of openSlots"></div>
     </div>
     <div class="settings" [style.display]="drawPlayers ? 'block' : 'none'">Settings</div>
   </div>
