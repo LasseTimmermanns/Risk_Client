@@ -10,8 +10,5 @@ export class LobbyService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllColors(){
-    return this.httpClient.get<Color[]>(`${globals.spring_server}/settings/colors/all`)
-  }
 
 }
