@@ -1,3 +1,4 @@
+import { Color } from "../Settings/Color";
 import { LobbyPlayer } from "./LobbyPlayer";
 
 export class Lobby{
@@ -6,6 +7,7 @@ export class Lobby{
   maxPlayers: number;
   turnTimer: number;
   cardBonus: string;
+  usedColors: Color[] = [];
   players: LobbyPlayer[]
 
   constructor(id: string, mapId: string, maxPlayers: number, turnTimer: number, cardBonus: string, players: LobbyPlayer[]){
