@@ -10,7 +10,7 @@ import { ColorChange } from 'src/app/Services/Settings/ColorChange';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.scss', './playerstyle.scss']
+  styleUrls: ['./lobby.component.scss', './playerstyle.scss', './lobby_responsive.scss']
 })
 export class LobbyComponent {
 
@@ -29,12 +29,12 @@ export class LobbyComponent {
        private colorChangingService: ColorChangingService){}
 
   ngAfterViewInit(): void {
-    this.route.params.subscribe(params=>{
-      this.lobbyid = params['lobbyid'];
-      this.socket = this.connect(this.lobbyid!, "lasse");
-      this.receiveMessages(this.socket);
-      this.redirectOnSocketClose(this.socket);
-    })
+    // this.route.params.subscribe(params=>{
+    //   this.lobbyid = params['lobbyid'];
+    //   this.socket = this.connect(this.lobbyid!, "lasse");
+    //   this.receiveMessages(this.socket);
+    //   this.redirectOnSocketClose(this.socket);
+    // })
   }
 
   connect(lobbyid: string, playername: string): WebSocket {
