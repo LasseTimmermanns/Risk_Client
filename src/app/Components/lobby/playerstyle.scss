@@ -12,7 +12,9 @@
   align-items: center;
   justify-content: center;
   transform: skewX(-5deg);
+  box-shadow: inset 0px 0px 4px 5px rgba(0,0,0,0.2);
 }
+
 
 .slot, .player{
   width: 100%;
