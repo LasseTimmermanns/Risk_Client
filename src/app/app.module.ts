@@ -15,7 +15,7 @@ import { SearchComponent } from './Components/search/search.component';
 
 const allRoutes: Routes = [
   {path: "", component: LandingComponent},
-  {path: "search", component: SearchComponent},
+  {path: "explore", component: SearchComponent},
   {path: "game", component: GameComponent},
   {path: "lobby/:lobbyid", component: LobbyComponent}
 ];

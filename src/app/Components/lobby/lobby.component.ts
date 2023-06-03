@@ -60,7 +60,7 @@ export class LobbyComponent {
       let data = JSON.parse(event.data);
       let eventType = data.event;
 
-      console.log("received something")
+      console.log(data.data)
 
       switch (eventType) {
         case "declined":
@@ -78,6 +78,9 @@ export class LobbyComponent {
           break;
         case "token_granted":
           this.tokenGranted(data.data);
+          break;
+        case "privacy_change":
+          this.privacyChanged(data.data);
           break;
         case "color_change":
           this.colorChangingService.colorChanged(data.data, this.lobby!);
@@ -98,6 +101,14 @@ export class LobbyComponent {
     this.sortedPlayers = this.createSortedPlayers(data);
     this.updateOpenSlots();
     this.adjustPlayerNameFontSizes();
+  }
+
+  privacyChanged(data: any){
+    this.lobby!.isPublic = data.isPublic;
+  }
+
+  changePrivacy(){
+    this.lobbyService.changePrivacy(this.lobbyid!, !this.lobby!.isPublic, this.token, this.socket)
   }
 
   playerJoin(data: LobbyPlayer){

@@ -20,4 +20,8 @@ export class LobbyNavigationService {
     this.router.navigate([`/lobby/${lobbyid}`])
   }
 
+  findGames(){
+    this.router.navigate(["/explore"]);
+  }
+
 }

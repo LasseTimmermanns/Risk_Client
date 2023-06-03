@@ -16,4 +16,10 @@ export class LobbyService {
     this.lobbyWebSocketService.sendMessage(socket, msg);
   }
 
+  changePrivacy(lobbyid: string, new_privacy: boolean, token: string, socket: WebSocket){
+    let data = `{lobbyid: '${lobbyid}', isPublic: ${new_privacy}, token: '${token}'}`
+    let msg = this.lobbyWebSocketService.createMessage("privacy_change", data)
+    this.lobbyWebSocketService.sendMessage(socket, msg)
+  }
+
 }
