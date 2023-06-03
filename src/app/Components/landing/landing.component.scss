@@ -2,3 +2,24 @@ button{
   width: 100%;
   height: 100%;
 }
+
+:host{
+  background-image: url("../../../assets/landing_background.jpg");
+  display: flex;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+h1{
+  color: rgb(199, 80, 0);
+  position: absolute;
+  width: 50%;
+  text-align: center;
+  font-family: "Londrina Solid", cursive;
+  font-size: 92pt;
+  margin: 0;
+  border-radius: 100px;
+
+}
