@@ -14,4 +14,8 @@ export class LobbyWebSocketService {
   createMessage(event: string, data: string){
     return `{"event":"${event}","data":${data}}`;
   }
+
+  createEventMessage(event: string){
+    return `{"event":"${event}"}`
+  }
 }
