@@ -100,7 +100,6 @@ export class LobbyComponent {
     this.lobby = data;
     this.sortedPlayers = this.createSortedPlayers(data);
     this.updateOpenSlots();
-    this.adjustPlayerNameFontSizes();
   }
 
   privacyChanged(data: any){
@@ -141,37 +140,6 @@ export class LobbyComponent {
     this.openSlots = Array(openSlotsN).fill(0);
   }
 
-  adjustPlayerNameFontSizes(){
-    console.log("Adjusting FontSizes")
-    console.log(this.contentRef)
-    let textElements = this.contentRef.nativeElement.querySelectorAll('.playername');
-
-    console.log(textElements)
-
-    for(let i = 0; i < textElements.length; i++){
-      this.adjustFontSize(textElements[i], textElements[i].parentNode)
-    }
-
-  }
-
-  adjustFontSize(textElement: any, container: any){
-    const maxWidth = container.offsetWidth * 0.95;
-    const maxHeight = container.offsetHeight * 0.95;
-
-    let fontSize = 32; // Starting font size
-    let textWidth, textHeight;
-
-    console.log("adjusting");
-
-    do {
-      fontSize--;
-      textElement.style.fontSize = fontSize + 'px';
-
-      // Measure the width and height of the text element
-      textWidth = textElement.offsetWidth;
-      textHeight = textElement.offsetHeight;
-    } while((textWidth > maxWidth || textHeight > maxHeight) && fontSize > 0);
-  }
 
   changeColor(){
     this.colorChangingService.changeColor(this.lobby!, this.token, this.socket);

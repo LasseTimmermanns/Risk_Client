@@ -12,7 +12,7 @@
     <div><img src="../../../assets/leave.svg" (click)="leave()"></div>
     <div><img src="../../../assets/invite.svg"></div>
     <div><img src="../../../assets/run.svg"></div>
-    <div><img [src]="'../../../assets/' + (lobby?.isPublic ? 'visible' : 'invisible') + '.svg'" (click)="changePrivacy()"></div>
+    <div><img [src]="'../../../assets/' + (lobby?.isPublic ? 'invisible' : 'visible') + '.svg'" (click)="changePrivacy()"></div>
     <div><img src="../../../assets/refresh.svg" (click)="changeColor()"></div>
     <div><img src="../../../assets/settings.svg"></div>
   </div>
