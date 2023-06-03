@@ -23,6 +23,8 @@ export class LobbyComponent {
   socket!: WebSocket;
 
 
+  names = ["Lasse", "Sverre", "Timon", "Jojo", "Jan", "Alex", "Levin", "Mats", "Erik", "Caspar"]
+
   @ViewChild('content') contentRef!: ElementRef;
 
   constructor(private route: ActivatedRoute, private router: Router, private lobbyService : LobbyService,
@@ -31,7 +33,8 @@ export class LobbyComponent {
   ngAfterViewInit(): void {
     this.route.params.subscribe(params=>{
       this.lobbyid = params['lobbyid'];
-      this.socket = this.connect(this.lobbyid!, "lasse");
+      let name = this.names[Math.floor(Math.random() * this.names.length)];
+      this.socket = this.connect(this.lobbyid!, name);
       this.receiveMessages(this.socket);
       this.redirectOnSocketClose(this.socket);
     })
@@ -48,7 +51,7 @@ export class LobbyComponent {
   redirectOnSocketClose(socket: WebSocket){
     socket.onclose = (event) => {
       console.log("closed")
-      // this.router.navigate([""]);
+      this.router.navigate([""]);
     }
   }
 
@@ -103,8 +106,10 @@ export class LobbyComponent {
   }
 
   playerQuit(data: any){
-    let playername = data.playername;
-    const index = this.lobby?.players.findIndex((player) => player.name === playername);
+    console.log("Quit with following data")
+    console.log(data)
+    let id = data.id;
+    const index = this.lobby?.players.findIndex((player) => player.id === id);
 
     if (index != -1)
       this.lobby?.players.splice(index!, 1);
@@ -159,6 +164,10 @@ export class LobbyComponent {
 
   changeColor(){
     this.colorChangingService.changeColor(this.lobby!, this.token, this.socket);
+  }
+
+  leave(){
+    this.lobbyService.leave(this.socket)
   }
 
 }

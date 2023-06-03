@@ -13,4 +13,5 @@ export class SettingsService {
   getColors(){
     return this.httpClient.get<Color>(`${globals.spring_server}/settings/colors`);
   }
+
 }
