@@ -65,7 +65,6 @@ export class LobbyComponent {
       switch (eventType) {
         case "declined":
           console.log("Declined")
-          this.router.navigate([""]);
           break;
         case "join_accepted":
           this.joinAccepted(data.data);
