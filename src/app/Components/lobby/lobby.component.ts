@@ -4,13 +4,11 @@ import { ColorChangingService } from 'src/app/Services/Lobby/Color/color-changin
 import { Lobby } from 'src/app/Services/Lobby/Lobby';
 import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { LobbyService } from 'src/app/Services/Lobby/lobby.service';
-import { Color } from 'src/app/Services/Settings/Color';
-import { ColorChange } from 'src/app/Services/Settings/ColorChange';
-
+import { DisplayMap } from './DisplayMap';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
-  styleUrls: ['./lobby.component.scss', './playerstyle.scss', './lobby_responsive.scss']
+  styleUrls: ['./lobby.component.scss', './playerstyle.scss', './lobby_responsive.scss', './map.scss']
 })
 export class LobbyComponent {
 
@@ -20,6 +18,7 @@ export class LobbyComponent {
   sortedPlayers: LobbyPlayer[] = [];
   openSlots: number[] = [];
   token: string = "";
+  display_map?: DisplayMap;
   socket!: WebSocket;
 
 
@@ -51,7 +50,7 @@ export class LobbyComponent {
   redirectOnSocketClose(socket: WebSocket){
     socket.onclose = (event) => {
       console.log("closed")
-      this.router.navigate([""]);
+      // this.router.navigate([""]);
     }
   }
 
@@ -68,6 +67,7 @@ export class LobbyComponent {
           break;
         case "join_accepted":
           this.joinAccepted(data.data);
+          this.initializeMap(data.data)
           break;
         case "join":
           this.playerJoin(data.data);
@@ -99,6 +99,14 @@ export class LobbyComponent {
     this.lobby = data;
     this.sortedPlayers = this.createSortedPlayers(data);
     this.updateOpenSlots();
+  }
+
+  initializeMap(data: Lobby){
+    console.log("I want " + data.mapId)
+    this.lobbyService.getDisplayPath(data.mapId).subscribe(res => {
+      this.display_map = res
+      console.log(res)
+    })
   }
 
   privacyChanged(data: any){

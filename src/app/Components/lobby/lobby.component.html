@@ -1,4 +1,4 @@
-<div class="creation">
+<!--<div class="creation">
   <div class="content" #content>
     <div class="players" [style.display]="drawPlayers ? 'grid' : 'none'" >
       <div class="player" *ngFor="let player of sortedPlayers" [style.background-color]="player.color.hex">
@@ -6,7 +6,10 @@
       </div>
       <div class="slot" *ngFor="let slot of openSlots"></div>
     </div>
-    <div class="settings" [style.display]="!drawPlayers ? 'block' : 'none'">Settings</div>
+    <div class="settings" [style.display]="!drawPlayers ? 'grid' : 'none'">
+      <h1>Settings</h1>
+      <input type="range" id="volume" name="volume" min="0" max="11">
+    </div>
   </div>
   <div class="actionbar">
     <div><img src="../../../assets/leave.svg" (click)="leave()"></div>
@@ -14,7 +17,24 @@
     <div><img src="../../../assets/run.svg"></div>
     <div><img [src]="'../../../assets/' + (lobby?.isPublic ? 'invisible' : 'visible') + '.svg'" (click)="changePrivacy()"></div>
     <div><img src="../../../assets/refresh.svg" (click)="changeColor()"></div>
-    <div><img src="../../../assets/settings.svg"></div>
+    <div><img src="../../../assets/settings.svg" (click)="switchView()"></div>
   </div>
-</div>
+</div>-->
+<!--[ngStyle]="display_map && {'paddingBottom': display_map.height / display_map.width * 100 + '%'}" -->
+<div class="wrapper">
+    <svg class="map"
+    [attr.viewBox]="'0 0 ' + display_map?.width + ' ' + display_map?.height"
+    [attr.xmlns]="'http://www.w3.org/2000/svg'">
+    <linearGradient id="gradient" >
+      <stop stop-color="#B2FF35"/>
+      <stop offset="1" stop-color="#D4FC79"/>
+    </linearGradient>
 
+    <path
+    [attr.name]="display_map?.name"
+    [attr.d]="display_map?.display_path"
+    [attr.fill]="'url(#gradient)'"
+    [attr.stroke]="'url(#gradient)'"
+    [attr.stroke-miterlimit]="'4.32165'"/>
+  </svg>
+</div>
