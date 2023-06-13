@@ -145,16 +145,16 @@ export class LobbyComponent {
           break;
         case 'color_change':
           this.colorChangingService.colorChanged(data.data, this.lobby!);
-          this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
-        case 'flagposition_update':
-          this.playerSettingsService.flagPositionChange(
-            data.data.playerid,
-            data.data.flagx,
-            data.data.flagy,
-            this.scale_factor,
-            this.lobby!
-          );
+          case 'flagposition_update':
+            this.playerSettingsService.flagPositionChange(
+              data.data.playerid,
+              data.data.flagx,
+              data.data.flagy,
+              this.scale_factor,
+              this.lobby!
+              );
+            this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
         default:
           console.log(data);
