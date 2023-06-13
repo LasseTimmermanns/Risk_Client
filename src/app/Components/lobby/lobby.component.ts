@@ -145,6 +145,7 @@ export class LobbyComponent {
           break;
         case 'color_change':
           this.colorChangingService.colorChanged(data.data, this.lobby!);
+          this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
         case 'flagposition_update':
           this.playerSettingsService.flagPositionChange(
@@ -213,7 +214,7 @@ export class LobbyComponent {
   createSortedPlayers(lobby: Lobby) {
     let players = lobby.players;
     players.sort(function (a, b) {
-      return a.position - b.position;
+      return a.flagy - b.flagy;
     });
     return players;
   }
