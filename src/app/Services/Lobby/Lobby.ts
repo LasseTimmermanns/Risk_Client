@@ -3,7 +3,7 @@ import { LobbyPlayer } from "./LobbyPlayer";
 
 export class Lobby{
   id: string;
-  mapId: string;
+  mapName: string;
   maxPlayers: number;
   turnTimer: number;
   cardBonus: string;
@@ -11,9 +11,9 @@ export class Lobby{
   usedColors: Color[] = [];
   players: LobbyPlayer[]
 
-  constructor(id: string, mapId: string, maxPlayers: number, turnTimer: number, cardBonus: string, isPublic: boolean, players: LobbyPlayer[]){
+  constructor(id: string, mapName: string, maxPlayers: number, turnTimer: number, cardBonus: string, isPublic: boolean, players: LobbyPlayer[]){
     this.id = id;
-    this.mapId = mapId;
+    this.mapName = mapName;
     this.maxPlayers = maxPlayers;
     this.turnTimer = turnTimer;
     this.cardBonus = cardBonus;

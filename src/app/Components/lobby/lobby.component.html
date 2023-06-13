@@ -1,4 +1,52 @@
-<!--<div class="creation">
+<div class="wrapper">
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
+    </style>
+  <svg class="map" *ngIf="display_map"
+       [attr.viewBox]="'0 0 ' + display_map.width + ' ' + display_map.height"
+       [attr.xmlns]="'http://www.w3.org/2000/svg'"
+       [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
+       (click)="handleClick($event)"
+       #map>
+
+    <defs>
+      <rect id="p1" x="3" y="33" width="204" height="109" fill="#D9D9D9"/>
+    </defs>
+
+    <linearGradient id="gradient">
+      <stop stop-color="#B2FF35"/>
+      <stop offset="1" stop-color="#D4FC79"/>
+    </linearGradient>
+
+    <g class="perspective">
+      <path [attr.name]="display_map.name"
+            [attr.d]="display_map.display_path"
+            [attr.x]="'0'"
+            [attr.y]="'0'"
+            [attr.fill]="'url(#gradient)'"
+            [attr.stroke]="'url(#gradient)'"
+            [attr.stroke-miterlimit]="'4.32165'"
+            id="map"/>
+    </g>
+
+    <g *ngFor="let player of sortedPlayers"
+      [attr.transform]="'scale('+ scale_factor + ',' + scale_factor + ') translate(' + (player.flagx / scale_factor - 8) + ', ' + (player.flagy / scale_factor - rectheight + 8) + ')'" class="flag" >
+
+      <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
+      <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
+      <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="changeColor(player.id)"/>
+      <text x="105" y="88" font-family="'Quattrocento', serif" font-size="35" [attr.fill]="player.color.text_color"
+      [attr.font-weight]="player.host ? 'bold' : 'normal'" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
+        {{player.name}}
+      </text>
+    </g>
+  </svg>
+</div>
+
+<!-- OLD OLD OLD OLDO LD JKLFJDSKLFJDSLÖFJSLDKÖFJKLSDJFLKÖSDJFLÖKSDJFLKÖSDJFLSDJFLÖKSDJLFÖKSJDLÖFJSDLKFJSLDFJLSDJFLDSJFDSLKFDS-->
+
+<!--<div class="wrapper">
+<div class="creation">
   <div class="content" #content>
     <div class="players" [style.display]="drawPlayers ? 'grid' : 'none'" >
       <div class="player" *ngFor="let player of sortedPlayers" [style.background-color]="player.color.hex">
@@ -21,14 +69,25 @@
   </div>
 </div>-->
 <!--[ngStyle]="display_map && {'paddingBottom': display_map.height / display_map.width * 100 + '%'}" -->
-<div class="wrapper">
+<!-- <div class="wrapper">
     <svg class="map"
     [attr.viewBox]="'0 0 ' + display_map?.width + ' ' + display_map?.height"
-    [attr.xmlns]="'http://www.w3.org/2000/svg'">
+    [attr.xmlns]="'http://www.w3.org/2000/svg'"
+    [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
+    (click)="handleClick($event)"
+    #map
+    >
+
+    <defs>
+      <rect id="p1" x="3" y="33" width="204" height="109" fill="#D9D9D9"/>
+    </defs>
+
     <linearGradient id="gradient" >
       <stop stop-color="#B2FF35"/>
       <stop offset="1" stop-color="#D4FC79"/>
     </linearGradient>
+
+
 
     <path
     [attr.name]="display_map?.name"
@@ -36,5 +95,37 @@
     [attr.fill]="'url(#gradient)'"
     [attr.stroke]="'url(#gradient)'"
     [attr.stroke-miterlimit]="'4.32165'"/>
-  </svg>
-</div>
+    <svg
+    class="flag"
+    [attr.viewBox]="'0 0 207 332'"
+    fill="red" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <defs>
+      <rect id="p1" x="3" y="33" width="204" height="109" fill="#D9D9D9"/>
+    </defs>
+
+    <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
+    <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
+    <path d="M4 33H260L206.5 87.5L260 142H4V33Z" fill="#FF203D" />
+    <text x="105" y ="88" font-family="Quattrocento" font-size="35" fill="blue" dominant-baseline="middle" text-anchor="middle">Hello</text> <!--x 105 = 102 + 3 (rect width / 2 + x), height similar
+</svg>
+  </svg> -->
+
+
+
+  <!-- <svg
+    class="flag"
+    [style.left]="rectx + 'px'"
+    [style.top]="recty + 'px'"
+    [attr.viewBox]="'0 0 207 332'"
+    fill="red" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <defs>
+      <rect id="p1" x="3" y="33" width="204" height="109" fill="#D9D9D9"/>
+    </defs>
+
+    <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
+    <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
+    <path d="M4 33H260L206.5 87.5L260 142H4V33Z" fill="#FF203D" />
+    <text x="105" y ="88" font-family="Quattrocento" font-size="35" fill="blue" dominant-baseline="middle" text-anchor="middle">Hello</text> <!--x 105 = 102 + 3 (rect width / 2 + x), height similar
+</svg> -->

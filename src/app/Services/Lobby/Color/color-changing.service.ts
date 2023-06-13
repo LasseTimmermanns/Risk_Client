@@ -23,10 +23,8 @@ export class ColorChangingService {
   }
 
   colorChanged(colorChange: ColorChange, lobby: Lobby ){
-    console.log("Player changed color")
-
     let playerIndex = lobby.players.findIndex(player => player.id === colorChange.playerid);
-    lobby.players[playerIndex].color.hex = colorChange.color;
+    lobby.players[playerIndex].color = colorChange.color;
   }
 
 

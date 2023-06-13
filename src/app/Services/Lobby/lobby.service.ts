@@ -27,4 +27,5 @@ export class LobbyService {
     return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_name}`)
   }
 
+
 }
