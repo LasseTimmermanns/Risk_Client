@@ -28,16 +28,16 @@
   display: flex;
   align-items: stretch;
   justify-content: space-around;
+  overflow-x: auto;
+  overflow-y: hidden;
   gap: 5%;
 }
 
 .setting-title{
-  font-family: 'Quattrocento Sans', sans-serif;
-  line-height: 100%;
-  text-transform: uppercase;
   font-size: 12px;
-  display: inline-flex;
+  font-weight: normal;
   align-items: flex-end;
+  text-transform: uppercase;
 }
 
 .setting-title::after{
@@ -45,15 +45,19 @@
 }
 
 .setting-value{
-  display: inline-flex;
-  text-transform: capitalize;
-  align-items: baseline;
   font-size: 30px;
-  font-family: 'Quattrocento Sans', sans-serif;
   font-weight: bold;
+  align-items: baseline;
+  text-transform: capitalize;
 }
 
 .setting-ceil{
   display: grid;
   grid-template-rows: 30% 70%;
+  & span{
+    font-family: 'Quattrocento Sans', sans-serif;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }
