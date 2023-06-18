@@ -1,7 +1,4 @@
 <div class="wrapper">
-  <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
-    </style>
   <svg class="map" *ngIf="display_map"
        [attr.viewBox]="'0 0 ' + display_map.width + ' ' + display_map.height"
        [attr.xmlns]="'http://www.w3.org/2000/svg'"
@@ -37,8 +34,8 @@
     <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
     <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
     <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="changeColor(player.id)"/>
-    <text x="105" y="88" font-family="Quattrocento" font-size="35" [attr.fill]="player.color.text_color"
-    [attr.font-weight]="player.host ? 'bold' : 'normal'" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
+    <text x="105" y="88" font-size="35" class="playername-display" [attr.fill]="player.color.text_color"
+    [attr.font-weight]="player.host ? 700 : 400" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
       {{player.name}}
     </text>
   </g>
