@@ -120,7 +120,10 @@ export class LobbyComponent {
       let data = JSON.parse(event.data);
       let eventType = data.event;
 
+      console.log("---")
+      console.log(eventType)
       console.log(data.data);
+      console.log("---")
 
       switch (eventType) {
         case 'declined':
@@ -170,7 +173,6 @@ export class LobbyComponent {
   joinAccepted(data: Lobby) {
     this.lobby = data;
     this.sortedPlayers = this.createSortedPlayers(data);
-    this.updateOpenSlots();
   }
 
   initializeMap(data: Lobby) {
@@ -195,8 +197,7 @@ export class LobbyComponent {
   }
 
   playerJoin(data: LobbyPlayer) {
-    this.lobby?.players.push(data);
-    this.updateOpenSlots();
+    this.lobby!.players.push(data);
   }
 
   playerQuit(data: any) {
@@ -211,8 +212,6 @@ export class LobbyComponent {
     const index_host: number = this.lobby.players.findIndex((player) => player.id === new_host_id);
 
     this.lobby.players[index_host].host = true;
-
-    this.updateOpenSlots();
   }
 
   createSortedPlayers(lobby: Lobby) {
@@ -221,11 +220,6 @@ export class LobbyComponent {
       return a.flagy - b.flagy;
     });
     return players;
-  }
-
-  updateOpenSlots() {
-    let openSlotsN = this.lobby!.maxPlayers - this.lobby!.players.length;
-    this.openSlots = Array(openSlotsN).fill(0);
   }
 
   changeColor(playerId: string) {
