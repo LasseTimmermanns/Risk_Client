@@ -34,7 +34,7 @@ export class LobbyComponent {
   socket!: WebSocket;
 
   rectheight: number = 332;
-  scale_factor: number = 0.25;
+  scale_factor: number = 0.5;
 
   @ViewChild('map', { static: false }) mapRef?: ElementRef;
 
@@ -81,9 +81,8 @@ export class LobbyComponent {
     return [scale_x, scale_y];
   }
 
-  handleClick(event: any) {
-    if (event.target.id !== 'map') return;
 
+  handleClick(event: any) {
     let scale_x = this.getScales()[0];
     let scale_y = this.getScales()[1];
 
@@ -175,8 +174,8 @@ export class LobbyComponent {
   }
 
   initializeMap(data: Lobby) {
-    console.log('I want ' + data.mapName);
-    this.lobbyService.getDisplayPath(data.mapName).subscribe((res) => {
+    console.log('I want ' + data.mapId);
+    this.lobbyService.getDisplayMap(data.mapId).subscribe((res) => {
       this.display_map = res;
       console.log(res);
     });

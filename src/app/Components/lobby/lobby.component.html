@@ -6,19 +6,18 @@
        [attr.viewBox]="'0 0 ' + display_map.width + ' ' + display_map.height"
        [attr.xmlns]="'http://www.w3.org/2000/svg'"
        [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
-       (click)="handleClick($event)"
        #map>
 
     <defs>
       <rect id="p1" x="3" y="33" width="204" height="109" fill="#D9D9D9"/>
     </defs>
 
-    <linearGradient id="gradient">
+    <!-- <linearGradient id="gradient">
       <stop stop-color="#B2FF35"/>
       <stop offset="1" stop-color="#D4FC79"/>
     </linearGradient>
 
-    <g class="perspective">
+    <g class="perspective2">
       <path [attr.name]="display_map.name"
             [attr.d]="display_map.display_path"
             [attr.x]="'0'"
@@ -26,20 +25,23 @@
             [attr.fill]="'url(#gradient)'"
             [attr.stroke]="'url(#gradient)'"
             [attr.stroke-miterlimit]="'4.32165'"
-            id="map"/>
-    </g>
+            id="map"
+            transform="matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3, 23, 0, 1)"
+            />
+    </g> -->
+
+    <image [attr.href]="'../../../assets/'+display_map.id+'_display.png'" [attr.height]="display_map.height" [attr.width]="display_map.width" (click)="handleClick($event)"/>
 
     <g *ngFor="let player of sortedPlayers"
-      [attr.transform]="'scale('+ scale_factor + ',' + scale_factor + ') translate(' + (player.flagx / scale_factor - 8) + ', ' + (player.flagy / scale_factor - rectheight + 8) + ')'" class="flag" >
-
-      <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
-      <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
-      <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="changeColor(player.id)"/>
-      <text x="105" y="88" font-family="'Quattrocento', serif" font-size="35" [attr.fill]="player.color.text_color"
-      [attr.font-weight]="player.host ? 'bold' : 'normal'" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
-        {{player.name}}
-      </text>
-    </g>
+    [attr.transform]="'scale('+ scale_factor + ',' + scale_factor + ') translate(' + (player.flagx / scale_factor - 8) + ', ' + (player.flagy / scale_factor - rectheight + 8) + ')'" class="flag" >
+    <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
+    <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
+    <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="changeColor(player.id)"/>
+    <text x="105" y="88" font-family="Quattrocento" font-size="35" [attr.fill]="player.color.text_color"
+    [attr.font-weight]="player.host ? 'bold' : 'normal'" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
+      {{player.name}}
+    </text>
+  </g>
   </svg>
 </div>
 

@@ -23,8 +23,8 @@ export class LobbyService {
     this.lobbyWebSocketService.sendMessage(socket, msg)
   }
 
-  getDisplayPath(map_name: string): Observable<DisplayMap>{
-    return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_name}`)
+  getDisplayMap(map_id: string): Observable<DisplayMap>{
+    return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
   }
 
 
