@@ -12,13 +12,14 @@ import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { LobbyService } from 'src/app/Services/Lobby/lobby.service';
 import { DisplayMap } from './DisplayMap';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
+import { SettingPair } from './SettingPair';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: [
     './lobby.component.scss',
     './playerstyle.scss',
-    './lobby_responsive.scss',
+    './settings.scss',
     './map.scss',
   ],
 })
@@ -32,6 +33,7 @@ export class LobbyComponent {
   playerid: string = '';
   display_map?: DisplayMap;
   socket!: WebSocket;
+  settings?: SettingPair[];
 
   rectheight: number = 332;
   scale_factor: number = 0.5;
@@ -111,7 +113,7 @@ export class LobbyComponent {
   redirectOnSocketClose(socket: WebSocket) {
     socket.onclose = (event) => {
       console.log('closed');
-      this.router.navigate(['']);
+      // this.router.navigate(['']);
     };
   }
 

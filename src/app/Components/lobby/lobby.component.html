@@ -18,12 +18,15 @@
     </text>
   </g>
   </svg>
+
+  <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
+  <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
+
+  <div class="settings display-settings">
+    <div class="setting-ceil" *ngFor="let setting of settings">
+      <span class="setting-title">{{setting.key}}</span>
+      <span class="setting-value">{{setting.value}}</span>
+    </div>
+  </div>
 </div>
 
-
-<!--<div><img src="../../../assets/leave.svg" (click)="leave()"></div>
-    <div><img src="../../../assets/invite.svg"></div>
-    <div><img src="../../../assets/run.svg"></div>
-    <div><img [src]="'../../../assets/' + (lobby?.isPublic ? 'invisible' : 'visible') + '.svg'" (click)="changePrivacy()"></div>
-    <div><img src="../../../assets/refresh.svg" (click)="changeColor()"></div>
-    <div><img src="../../../assets/settings.svg" (click)="switchView()"></div> -->

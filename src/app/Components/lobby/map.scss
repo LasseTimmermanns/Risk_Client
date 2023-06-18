@@ -3,13 +3,13 @@
   height: 100%;
   background: radial-gradient(62.75% 130.94% at 50% 50.04%, #89F7FE 0%, #6BB3FF 43.01%, #66A6FF 100%);
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .map{
-  bottom: 0;
+  bottom: 12vh;
   position: absolute;
-  border-bottom: 10vh rgba(0,0,0,0) solid;
-  backdrop-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   overflow: visible;
 }
 
@@ -20,7 +20,6 @@
   user-select: none;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
 .playername-display{
   font-family: 'Quattrocento Sans', sans-serif;
 }
