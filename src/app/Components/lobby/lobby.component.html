@@ -23,9 +23,25 @@
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
   <div class="settings display-settings">
-    <div class="setting-ceil" *ngFor="let setting of settings">
-      <span class="setting-title">{{setting.key}}</span>
-      <span class="setting-value">{{setting.value}}</span>
+    <div class="setting-ceil">
+      <span class="setting-title">Map</span>
+      <span class="setting-value">{{this.lobby?.mapId}}</span>
+    </div>
+    <div class="setting-ceil">
+      <span class="setting-title">Card Bonus</span>
+      <span class="setting-value">{{this.lobby?.cardBonus}}</span>
+    </div>
+    <div class="setting-ceil">
+      <span class="setting-title">Lobby Visibility</span>
+      <span class="setting-value">{{this.lobby?.isPublic ? "public" : "private"}}</span>
+    </div>
+    <div class="setting-ceil">
+      <span class="setting-title">Turn Timer</span>
+      <span class="setting-value">{{this.lobby?.turnTimer}}s</span>
+    </div>
+    <div class="setting-ceil">
+      <span class="setting-title">Players</span>
+      <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.maxPlayers}}</span>
     </div>
   </div>
 </div>

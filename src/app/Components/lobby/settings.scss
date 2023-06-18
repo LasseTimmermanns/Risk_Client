@@ -27,6 +27,7 @@
   height: 60px;
   display: flex;
   align-items: stretch;
+  justify-content: space-around;
   gap: 5%;
 }
 
@@ -45,6 +46,7 @@
 
 .setting-value{
   display: inline-flex;
+  text-transform: capitalize;
   align-items: baseline;
   font-size: 30px;
   font-family: 'Quattrocento Sans', sans-serif;
