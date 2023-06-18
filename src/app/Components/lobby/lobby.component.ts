@@ -200,12 +200,17 @@ export class LobbyComponent {
   }
 
   playerQuit(data: any) {
-    console.log('Quit with following data');
-    console.log(data);
-    let id = data.id;
-    const index = this.lobby?.players.findIndex((player) => player.id === id);
+    if(!this.lobby) return;
 
-    if (index != -1) this.lobby?.players.splice(index!, 1);
+    const id = data.id;
+    const index_quit = this.lobby.players.findIndex((player) => player.id === id);
+
+    if (index_quit != -1) this.lobby.players.splice(index_quit!, 1);
+
+    const new_host_id : string = data.host;
+    const index_host: number = this.lobby.players.findIndex((player) => player.id === new_host_id);
+
+    this.lobby.players[index_host].host = true;
 
     this.updateOpenSlots();
   }
