@@ -10,6 +10,7 @@ import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { LobbyService } from 'src/app/Services/Lobby/lobby.service';
 import { DisplayMap } from './DisplayMap';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
+import { InputEvent } from '../shared/InputEvent';
 
 @Component({
   selector: 'app-lobby',
@@ -17,16 +18,15 @@ import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/pla
   styleUrls: [
     './lobby.component.scss',
     './changeable_settings.scss',
+    './switch_settings_button.scss',
     './settings.scss',
     './map.scss',
   ],
 })
 export class LobbyComponent {
-  drawPlayers: boolean = true;
   lobby?: Lobby;
   lobbyid?: string;
   sortedPlayers: LobbyPlayer[] = [];
-  openSlots: number[] = [];
   token: string = '';
   playerid: string = '';
   display_map?: DisplayMap;
@@ -34,6 +34,8 @@ export class LobbyComponent {
 
   rectheight: number = 332;
   scale_factor: number = 0.5;
+
+  draw_settings_menu: boolean = false;
 
   @ViewChild('map', { static: false }) mapRef?: ElementRef;
 
@@ -60,7 +62,7 @@ export class LobbyComponent {
     private playerSettingsService: PlayerSettingsService
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.lobbyid = params['lobbyid'];
       let name = this.names[Math.floor(Math.random() * this.names.length)];
@@ -68,6 +70,18 @@ export class LobbyComponent {
       this.receiveMessages(this.socket);
       this.redirectOnSocketClose(this.socket);
     });
+  }
+
+  playerIsHost(){
+    const index_host: number = this.lobby!.players.findIndex((player) => player.host === true);
+    const host_id: string = this.lobby!.players[index_host].id;
+
+    return host_id === this.playerid
+  }
+
+  switch_view(){
+    // if(!this.playerIsHost()) return;
+    this.draw_settings_menu = !this.draw_settings_menu;
   }
 
   getScales() {
@@ -103,14 +117,10 @@ export class LobbyComponent {
     );
   }
 
-  switchView() {
-    this.drawPlayers = !this.drawPlayers;
-  }
-
   redirectOnSocketClose(socket: WebSocket) {
     socket.onclose = (event) => {
-      console.log('closed');
-      // this.router.navigate(['']);
+      // console.log('closed');
+      this.router.navigate(['']);
     };
   }
 
@@ -142,19 +152,28 @@ export class LobbyComponent {
           this.tokenGranted(data.data);
           break;
         case 'privacy_change':
-          this.privacyChanged(data.data);
+          this.lobby!.is_public = data.data.value;
+          break;
+        case 'turn_timer_change':
+          this.lobby!.turn_timer = data.data.value;
+          break;
+        case 'card_bonus_change':
+          this.lobby!.is_fixed = data.data.value;
+          break;
+        case 'max_players_change':
+          this.lobby!.max_players = data.data.value;
           break;
         case 'color_change':
           this.colorChangingService.colorChanged(data.data, this.lobby!);
           break;
-          case 'flagposition_update':
-            this.playerSettingsService.flagPositionChange(
-              data.data.playerid,
-              data.data.flagx,
-              data.data.flagy,
-              this.scale_factor,
-              this.lobby!
-              );
+        case 'flagposition_update':
+          this.playerSettingsService.flagPositionChange(
+            data.data.playerid,
+            data.data.flagx,
+            data.data.flagy,
+            this.scale_factor,
+            this.lobby!
+            );
             this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
         default:
@@ -175,24 +194,13 @@ export class LobbyComponent {
   }
 
   initializeMap(data: Lobby) {
-    console.log('I want ' + data.mapId);
-    this.lobbyService.getDisplayMap(data.mapId).subscribe((res) => {
+    this.lobbyService.getDisplayMap(data.map_id).subscribe((res) => {
       this.display_map = res;
-      console.log(res);
     });
   }
 
-  privacyChanged(data: any) {
-    this.lobby!.isPublic = data.isPublic;
-  }
-
-  changePrivacy() {
-    this.lobbyService.changePrivacy(
-      this.lobbyid!,
-      !this.lobby!.isPublic,
-      this.token,
-      this.socket
-    );
+  changeAttribute(event: InputEvent){
+    this.lobbyService.changeAttribute(event, this.lobbyid!, this.token, this.socket);
   }
 
   playerJoin(data: LobbyPlayer) {

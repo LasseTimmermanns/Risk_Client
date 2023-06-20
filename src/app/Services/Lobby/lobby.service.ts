@@ -3,6 +3,7 @@ import { LobbyWebSocketService } from './lobby-web-socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { InputEvent } from 'src/app/Components/shared/InputEvent';
 import { globals } from 'src/app/globals';
 
 @Injectable({
@@ -25,6 +26,12 @@ export class LobbyService {
 
   getDisplayMap(map_id: string): Observable<DisplayMap>{
     return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
+  }
+
+  changeAttribute(event: InputEvent, lobbyid: string, token: string, socket: WebSocket){
+    let data = `{lobbyid: '${lobbyid}', value: ${event.value}, token: '${token}'}`
+    let msg = this.lobbyWebSocketService.createMessage(event.name, data)
+    this.lobbyWebSocketService.sendMessage(socket, msg)
   }
 
 

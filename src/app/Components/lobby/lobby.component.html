@@ -22,47 +22,80 @@
   <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
-  <div class="settings display-settings" style="display: none">
+  <div class="switch-settings-view" [ngClass]="draw_settings_menu ? 'switch-settings-view-close' : 'switch-settings-view-open'" (click)="switch_view()">
+    <!-- Switch View -->
+    <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-left' : 'switch-settings-open-top'"></div>
+    <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-right' : 'switch-settings-open-bottom'"></div>
+
+    <div class="switch-settings-element switch-settings-circle" [ngClass]="draw_settings_menu ? 'switch-settings-circle-inactive' : 'switch-settings-circle-top'"></div>
+    <div class="switch-settings-element switch-settings-circle" [ngClass]="draw_settings_menu ? 'switch-settings-circle-inactive' : 'switch-settings-circle-bottom'"></div>
+</div>
+
+  <div class="settings display-settings"  [ngStyle]="{'display': draw_settings_menu ? 'none' : 'flex'}" (click)="switch_view()">
     <div class="setting-ceil">
       <span class="setting-title">Map</span>
-      <span class="setting-value">{{this.lobby?.mapId}}</span>
+      <span class="setting-value">{{this.lobby?.map_id}}</span>
     </div>
     <div class="setting-ceil">
       <span class="setting-title">Card Bonus</span>
-      <span class="setting-value">{{this.lobby?.cardBonus}}</span>
+      <span class="setting-value">{{this.lobby?.is_fixed ? "fixed" : "progressive"}}</span>
     </div>
     <div class="setting-ceil">
       <span class="setting-title">Lobby Visibility</span>
-      <span class="setting-value">{{this.lobby?.isPublic ? "public" : "private"}}</span>
+      <span class="setting-value">{{this.lobby?.is_public ? "public" : "private"}}</span>
     </div>
     <div class="setting-ceil">
       <span class="setting-title">Turn Timer</span>
-      <span class="setting-value">{{this.lobby?.turnTimer}}s</span>
+      <span class="setting-value">{{this.lobby?.turn_timer}}s</span>
     </div>
     <div class="setting-ceil">
       <span class="setting-title">Players</span>
-      <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.maxPlayers}}</span>
+      <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.max_players}}</span>
     </div>
   </div>
 
-  <div class="settings-container-wrapper">
+
+
+  <div class="settings-container-wrapper" [ngStyle]="{'display': draw_settings_menu ? 'flex' : 'none'}">
     <div class="settings-container">
       <h3 class="settings-container-title">General Settings</h3>
       <h5>Max Players</h5>
-      <app-slider [min]=0 [max]=10 [value]=5 class="slider"></app-slider>
+      <app-slider
+        [name]="'max_players_change'"
+        [min]="0"
+        [max]="10"
+        [value]="lobby?.max_players"
+        (onChange)="changeAttribute($event)"/>
 
       <h5>Turn Timer</h5>
-      <app-slider [min]=30 [max]=120 [value]=60 class="slider"></app-slider>
+      <app-slider
+        [name]="'turn_timer_change'"
+        [min]="30"
+        [max]="120"
+        [value]="lobby?.turn_timer"
+        (onChange)="changeAttribute($event)"/>
 
       <h5>Card Bonus</h5>
-      <app-switch [labelLeft]="'Fixed'" [labelRight]="'Progressive'" [checked]="false"></app-switch>
+      <app-switch
+        [name]="'card_bonus_change'"
+        [labelLeft]="'progressive'"
+        [labelRight]="'fixed'"
+        [checked]="(lobby?.is_fixed)"
+        (onChange)="changeAttribute($event)"/>
 
       <h5>Lobby Visibility</h5>
-      <app-switch [labelLeft]="'Private'" [labelRight]="'Public'" [checked]="false"></app-switch>
+      <app-switch
+        [name]="'privacy_change'"
+        [labelLeft]="'private'"
+        [labelRight]="'public'"
+        [checked]="lobby?.is_public"
+        (onChange)="changeAttribute($event)"/>
+
     </div>
 
     <div class="settings-container">
-      <h3 class="settings-container-title">Map Selection</h3>
+      <!-- Map Selection -->
+      <h3 class="settings-container-title">Coming Soon..</h3>
     </div>
   </div>
 </div>

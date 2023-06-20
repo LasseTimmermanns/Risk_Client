@@ -1,0 +1,73 @@
+
+.switch-settings-view{
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease-out
+}
+
+.switch-settings-view-open{
+  background-color: #00ff47;
+}
+
+.switch-settings-view-close{
+  background-color: #ff7587;
+}
+
+
+
+.switch-settings-element{
+  background-color: white;
+  transition: all 0.4s ease-out
+}
+
+.switch-settings-line{
+  position: absolute;
+  height: 6px;
+  width: 40px;
+  border-radius: 8px;
+}
+
+.switch-settings-circle{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 4px solid white;
+  background-color: #00ff47;
+}
+
+.switch-settings-close-left{
+  transform: rotateZ(45deg);
+}
+
+.switch-settings-close-right{
+  transform: rotateZ(-45deg);
+}
+
+.switch-settings-open-top{
+  transform: translateY(-8px);
+}
+
+.switch-settings-open-bottom{
+  transform: translateY(8px);
+}
+
+.switch-settings-circle-inactive{
+  background-color: #ff7587;
+  opacity: 0;
+}
+
+.switch-settings-circle-top{
+  transform: translate(-8px, -8px);
+}
+
+.switch-settings-circle-bottom{
+  transform: translate(8px, 8px);
+}
