@@ -1,3 +1,7 @@
+.wrapper{
+  position: relative;
+}
+
 #slider {
   -webkit-appearance: none;
   width: 100%;
@@ -13,11 +17,8 @@
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  background-color: #45CD6B;
+  background-color: rgba(0,0,0,0);
   border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  z-index: 2;
   margin-top: -10px;
 }
 
@@ -67,6 +68,6 @@
   cursor: pointer;
   position: absolute;
   transform: translateX(-50%);
-  margin-top: -20px;
+  margin-top: -18px;
   pointer-events: none;
 }
