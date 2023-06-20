@@ -53,6 +53,12 @@
 
       <h5>Turn Timer</h5>
       <app-slider [min]=30 [max]=120 [value]=60 class="slider"></app-slider>
+
+      <h5>Card Bonus</h5>
+      <app-switch [labelLeft]="'Fixed'" [labelRight]="'Progressive'" [checked]="false"></app-switch>
+
+      <h5>Lobby Visibility</h5>
+      <app-switch [labelLeft]="'Private'" [labelRight]="'Public'" [checked]="false"></app-switch>
     </div>
 
     <div class="settings-container">
