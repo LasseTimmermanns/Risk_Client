@@ -37,6 +37,8 @@ export class LobbyComponent {
 
   draw_settings_menu: boolean = false;
 
+  is_host: boolean = false;
+
   @ViewChild('map', { static: false }) mapRef?: ElementRef;
 
   names = [
@@ -72,11 +74,12 @@ export class LobbyComponent {
     });
   }
 
-  playerIsHost(){
+  updatePlayerIsHost(){
     const index_host: number = this.lobby!.players.findIndex((player) => player.host === true);
     const host_id: string = this.lobby!.players[index_host].id;
 
-    return host_id === this.playerid
+    this.is_host = host_id === this.playerid
+    return this.is_host
   }
 
   switch_view(){
@@ -190,6 +193,7 @@ export class LobbyComponent {
 
   joinAccepted(data: Lobby) {
     this.lobby = data;
+    this.updatePlayerIsHost()
     this.sortedPlayers = this.createSortedPlayers(data);
   }
 
@@ -219,6 +223,7 @@ export class LobbyComponent {
     const index_host: number = this.lobby.players.findIndex((player) => player.id === new_host_id);
 
     this.lobby.players[index_host].host = true;
+    this.updatePlayerIsHost()
   }
 
   createSortedPlayers(lobby: Lobby) {

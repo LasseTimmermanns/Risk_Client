@@ -22,7 +22,7 @@
   <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
-  <div class="switch-settings-view" [ngClass]="draw_settings_menu ? 'switch-settings-view-close' : 'switch-settings-view-open'" (click)="switch_view()">
+  <div class="switch-settings-view" [ngClass]="draw_settings_menu ? 'switch-settings-view-close' : 'switch-settings-view-open'" (click)="switch_view()"  *ngIf="is_host">
     <!-- Switch View -->
     <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-left' : 'switch-settings-open-top'"></div>
     <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-right' : 'switch-settings-open-bottom'"></div>
@@ -56,7 +56,7 @@
 
 
 
-  <div class="settings-container-wrapper" [ngStyle]="{'display': draw_settings_menu ? 'flex' : 'none'}">
+  <div class="settings-container-wrapper" [ngStyle]="{'display': draw_settings_menu ? 'flex' : 'none'}" >
     <div class="settings-container">
       <h3 class="settings-container-title">General Settings</h3>
       <h5>Max Players</h5>
