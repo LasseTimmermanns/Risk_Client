@@ -5,6 +5,8 @@ import { Color } from '../../Settings/Color';
 import { LobbyWebSocketService } from '../lobby-web-socket.service';
 import { HttpClient } from '@angular/common/http';
 import { globals } from 'src/app/globals';
+import { QueryIdentification } from 'src/app/Components/lobby/QueryIdentification';
+import { LobbyPlayer } from '../LobbyPlayer';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +30,7 @@ export class ColorChangingService {
   }
 
 
-  colorIsFree(color: string, lobby: Lobby){
-    const players = lobby.players;
+  colorIsFree(color: string, players: LobbyPlayer[]){
     for(let i = 0; i < players.length; i++){
       if(players[i].color.hex == color)
         return false;
@@ -37,16 +38,16 @@ export class ColorChangingService {
     return true;
   }
 
-  changeColor(lobby: Lobby, token: string, socket: WebSocket){
+  changeColor(players: LobbyPlayer[], queryIdentification: QueryIdentification){
     var color;
     do{
       this.colorIndex++;
       if(this.colorIndex >= this.colors.length) this.colorIndex = 0;
       color = this.colors[this.colorIndex];
-    }while(!this.colorIsFree(color.hex, lobby))
+    }while(!this.colorIsFree(color.hex, players))
 
-    const data = `{"lobbyid":"${lobby.id}","token":"${token}","hex":"${color.hex}"}`;
-    this.lobbyWebSocketService.sendMessage(socket, this.lobbyWebSocketService.createMessage("color_change", data))
+    const data = `{"lobbyid":"${queryIdentification.lobbyid}","token":"${queryIdentification.token}","hex":"${color.hex}"}`;
+    this.lobbyWebSocketService.sendMessage(queryIdentification.socket, this.lobbyWebSocketService.createMessage("color_change", data))
   }
 
 

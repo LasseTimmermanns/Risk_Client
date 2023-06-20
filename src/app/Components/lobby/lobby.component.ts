@@ -11,6 +11,7 @@ import { LobbyService } from 'src/app/Services/Lobby/lobby.service';
 import { DisplayMap } from './DisplayMap';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
 import { InputEvent } from '../shared/InputEvent';
+import { QueryIdentification } from './QueryIdentification';
 
 @Component({
   selector: 'app-lobby',
@@ -18,28 +19,22 @@ import { InputEvent } from '../shared/InputEvent';
   styleUrls: [
     './lobby.component.scss',
     './changeable_settings.scss',
-    './switch_settings_button.scss',
     './settings.scss',
-    './map.scss',
   ],
 })
 export class LobbyComponent {
   lobby?: Lobby;
-  lobbyid?: string;
   sortedPlayers: LobbyPlayer[] = [];
-  token: string = '';
   playerid: string = '';
   display_map?: DisplayMap;
   socket!: WebSocket;
 
-  rectheight: number = 332;
-  scale_factor: number = 0.5;
+  queryIdentification: QueryIdentification = new QueryIdentification("", "", this.socket);
 
   draw_settings_menu: boolean = false;
 
   is_host: boolean = false;
 
-  @ViewChild('map', { static: false }) mapRef?: ElementRef;
 
   names = [
     'Lasse',
@@ -66,9 +61,10 @@ export class LobbyComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.lobbyid = params['lobbyid'];
+      this.queryIdentification.lobbyid = params['lobbyid'];
       let name = this.names[Math.floor(Math.random() * this.names.length)];
-      this.socket = this.connect(this.lobbyid!, name);
+      this.socket = this.connect(this.queryIdentification.lobbyid, name);
+      this.queryIdentification.socket = this.socket;
       this.receiveMessages(this.socket);
       this.redirectOnSocketClose(this.socket);
     });
@@ -83,35 +79,8 @@ export class LobbyComponent {
   }
 
   switch_view(){
-    // if(!this.playerIsHost()) return;
+    if(!this.is_host) return;
     this.draw_settings_menu = !this.draw_settings_menu;
-  }
-
-  getScales() {
-    let svg_width = this.mapRef?.nativeElement.clientWidth;
-    let svg_height = this.mapRef?.nativeElement.clientHeight;
-
-    let scale_x = svg_width / this.display_map!.width;
-    let scale_y = svg_height / this.display_map!.height;
-
-    return [scale_x, scale_y];
-  }
-
-
-  handleClick(event: any) {
-    let scale_x = this.getScales()[0];
-    let scale_y = this.getScales()[1];
-
-    let flagx = event.offsetX / scale_x;
-    let flagy = event.offsetY / scale_y;
-
-    this.playerSettingsService.changeFlagPosition(
-      flagx,
-      flagy,
-      this.token,
-      this.lobbyid!,
-      this.socket
-    );
   }
 
   connect(lobbyid: string, playername: string): WebSocket {
@@ -174,7 +143,6 @@ export class LobbyComponent {
             data.data.playerid,
             data.data.flagx,
             data.data.flagy,
-            this.scale_factor,
             this.lobby!
             );
             this.sortedPlayers = this.createSortedPlayers(this.lobby!);
@@ -187,7 +155,7 @@ export class LobbyComponent {
   }
 
   tokenGranted(data: any) {
-    this.token = data.token;
+    this.queryIdentification.token = data.token;
     this.playerid = data.playerid;
   }
 
@@ -203,9 +171,6 @@ export class LobbyComponent {
     });
   }
 
-  changeAttribute(event: InputEvent){
-    this.lobbyService.changeAttribute(event, this.lobbyid!, this.token, this.socket);
-  }
 
   playerJoin(data: LobbyPlayer) {
     this.lobby!.players.push(data);
@@ -232,11 +197,6 @@ export class LobbyComponent {
       return a.flagy - b.flagy;
     });
     return players;
-  }
-
-  changeColor(playerId: string) {
-    if (playerId !== this.playerid) return;
-    this.colorChangingService.changeColor(this.lobby!, this.token, this.socket);
   }
 
   leave() {

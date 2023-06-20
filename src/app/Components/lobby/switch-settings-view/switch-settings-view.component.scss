@@ -1,10 +1,6 @@
-
 .switch-settings-view{
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 64px;
-  height: 64px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -13,14 +9,12 @@
 }
 
 .switch-settings-view-open{
-  background-color: #00ff47;
+  background-color: #a0d5fe;
 }
 
 .switch-settings-view-close{
   background-color: #ff7587;
 }
-
-
 
 .switch-settings-element{
   background-color: white;
@@ -40,7 +34,7 @@
   height: 8px;
   border-radius: 50%;
   border: 4px solid white;
-  background-color: #00ff47;
+  background-color: #a0d5fe;
 }
 
 .switch-settings-close-left{

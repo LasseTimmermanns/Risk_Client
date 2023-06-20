@@ -3,6 +3,7 @@ import { LobbyWebSocketService } from './lobby-web-socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryIdentification } from 'src/app/Components/lobby/QueryIdentification';
 import { InputEvent } from 'src/app/Components/shared/InputEvent';
 import { globals } from 'src/app/globals';
 
@@ -28,10 +29,10 @@ export class LobbyService {
     return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
   }
 
-  changeAttribute(event: InputEvent, lobbyid: string, token: string, socket: WebSocket){
-    let data = `{lobbyid: '${lobbyid}', value: ${event.value}, token: '${token}'}`
+  changeAttribute(event: InputEvent, queryIdentification: QueryIdentification){
+    let data = `{lobbyid: '${queryIdentification.lobbyid}', value: ${event.value}, token: '${queryIdentification.token}'}`
     let msg = this.lobbyWebSocketService.createMessage(event.name, data)
-    this.lobbyWebSocketService.sendMessage(socket, msg)
+    this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg)
   }
 
 

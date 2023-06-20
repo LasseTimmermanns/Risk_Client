@@ -13,53 +13,12 @@
   right: 0;
 }
 
-.settings{
-  background-image: linear-gradient(-225deg, #FFFEFF80 0%, #D7FFFE80 100%);
-  position: absolute;
-  width: 80%;
-  border-radius: 40px;
-  padding: 20px;
-  color: white;
+.transparent{
+  opacity: 0;
+  transform: scaleY(0);
 }
 
-.display-settings{
-  bottom: 5vh;
-  height: 60px;
-  display: flex;
-  align-items: stretch;
-  justify-content: space-around;
-  overflow-x: auto;
-  overflow-y: hidden;
-  gap: 5%;
-}
-
-
-
-.setting-title{
-  font-size: 12px;
-  font-weight: normal;
-  align-items: flex-end;
-  text-transform: uppercase;
-}
-
-.setting-title::after{
-  content: ":";
-}
-
-.setting-value{
-  font-size: 30px;
-  font-weight: bold;
-  align-items: baseline;
-  text-transform: capitalize;
-}
-
-.setting-ceil{
-  display: grid;
-  grid-template-rows: 30% 70%;
-  & span{
-    font-family: 'Quattrocento Sans', sans-serif;
-    display: inline-flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-  }
+.intransparent{
+  opacity: 1;
+  transform: scaleY(1);
 }

@@ -1,97 +1,20 @@
 <div class="wrapper">
-  <svg class="map" *ngIf="display_map"
-       [attr.viewBox]="'0 0 ' + display_map.width + ' ' + display_map.height"
-       [attr.xmlns]="'http://www.w3.org/2000/svg'"
-       [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
-       #map>
-
-    <image [attr.href]="'../../../assets/'+display_map.id+'_display.png'" [attr.height]="display_map.height" [attr.width]="display_map.width" (click)="handleClick($event)"/>
-
-    <g *ngFor="let player of sortedPlayers"
-    [attr.transform]="'scale('+ scale_factor + ',' + scale_factor + ') translate(' + (player.flagx / scale_factor - 8) + ', ' + (player.flagy / scale_factor - rectheight + 8) + ')'" class="flag" >
-    <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
-    <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
-    <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="changeColor(player.id)"/>
-    <text x="105" y="88" font-size="35" class="playername-display" [attr.fill]="player.color.text_color"
-    [attr.font-weight]="player.host ? 700 : 400" dominant-baseline="middle" text-anchor="middle" (click)="changeColor(player.id)">
-      {{player.name}}
-    </text>
-  </g>
-  </svg>
+  <app-lobby-map id="map"
+    [map]="display_map"
+    [players]="lobby?.players"
+    [identification]="queryIdentification"
+    [playerid]="playerid"/>
 
   <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
-  <div class="switch-settings-view" [ngClass]="draw_settings_menu ? 'switch-settings-view-close' : 'switch-settings-view-open'" (click)="switch_view()"  *ngIf="is_host">
-    <!-- Switch View -->
-    <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-left' : 'switch-settings-open-top'"></div>
-    <div class="switch-settings-element switch-settings-line" [ngClass]="draw_settings_menu ? 'switch-settings-close-right' : 'switch-settings-open-bottom'"></div>
+  <app-switch-settings-view id="switchView" *ngIf="is_host" (click)="switch_view()" [open]="draw_settings_menu"/>
 
-    <div class="switch-settings-element switch-settings-circle" [ngClass]="draw_settings_menu ? 'switch-settings-circle-inactive' : 'switch-settings-circle-top'"></div>
-    <div class="switch-settings-element switch-settings-circle" [ngClass]="draw_settings_menu ? 'switch-settings-circle-inactive' : 'switch-settings-circle-bottom'"></div>
-</div>
+  <app-settings-display [lobby]="lobby" class="animate" id="settings-display" [ngClass]="draw_settings_menu ? 'transparent' : 'intransparent'"/>
 
-  <div class="settings display-settings"  [ngStyle]="{'display': draw_settings_menu ? 'none' : 'flex'}" (click)="switch_view()">
-    <div class="setting-ceil">
-      <span class="setting-title">Map</span>
-      <span class="setting-value">{{this.lobby?.map_id}}</span>
-    </div>
-    <div class="setting-ceil">
-      <span class="setting-title">Card Bonus</span>
-      <span class="setting-value">{{this.lobby?.is_fixed ? "fixed" : "progressive"}}</span>
-    </div>
-    <div class="setting-ceil">
-      <span class="setting-title">Lobby Visibility</span>
-      <span class="setting-value">{{this.lobby?.is_public ? "public" : "private"}}</span>
-    </div>
-    <div class="setting-ceil">
-      <span class="setting-title">Turn Timer</span>
-      <span class="setting-value">{{this.lobby?.turn_timer}}s</span>
-    </div>
-    <div class="setting-ceil">
-      <span class="setting-title">Players</span>
-      <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.max_players}}</span>
-    </div>
-  </div>
+  <div class="animate settings settings-container-wrapper" [ngClass]="draw_settings_menu ? 'intransparent' : 'transparent'" >
 
-
-
-  <div class="settings-container-wrapper" [ngStyle]="{'display': draw_settings_menu ? 'flex' : 'none'}" >
-    <div class="settings-container">
-      <h3 class="settings-container-title">General Settings</h3>
-      <h5>Max Players</h5>
-      <app-slider
-        [name]="'max_players_change'"
-        [min]="0"
-        [max]="10"
-        [value]="lobby?.max_players"
-        (onChange)="changeAttribute($event)"/>
-
-      <h5>Turn Timer</h5>
-      <app-slider
-        [name]="'turn_timer_change'"
-        [min]="30"
-        [max]="120"
-        [value]="lobby?.turn_timer"
-        (onChange)="changeAttribute($event)"/>
-
-      <h5>Card Bonus</h5>
-      <app-switch
-        [name]="'card_bonus_change'"
-        [labelLeft]="'progressive'"
-        [labelRight]="'fixed'"
-        [checked]="(lobby?.is_fixed)"
-        (onChange)="changeAttribute($event)"/>
-
-      <h5>Lobby Visibility</h5>
-      <app-switch
-        [name]="'privacy_change'"
-        [labelLeft]="'private'"
-        [labelRight]="'public'"
-        [checked]="lobby?.is_public"
-        (onChange)="changeAttribute($event)"/>
-
-    </div>
+    <app-changeable-settings [lobby]="lobby" [identification]="queryIdentification" class="settings-container"/>
 
     <div class="settings-container">
       <!-- Map Selection -->
