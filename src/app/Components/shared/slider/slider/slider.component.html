@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div id="slider-box">
+    <svg id="slider-value"
+    [ngStyle]="{left: arrowPosition + 'px'}"
+    viewBox="0 0 64 80" fill="#45CD6B" xmlns="http://www.w3.org/2000/svg" >
+      <path d="M0 10C0 4.47716 4.47715 0 10 0H54C59.5228 0 64 4.47715 64 10V50.1099L33.3652 78.7248C32.5966 79.4427 31.4034 79.4427 30.6348 78.7248L0 50.1099V10Z" fill="#45CD6B"/>
+      <text x="32" y="32" font-size="26" id="value-field" fill="#FFF" dominant-baseline="middle" text-anchor="middle">
+        {{value}}
+      </text>
+    </svg>
+  </div>
+
+  <input type="range" id="slider" [attr.max]="max" [attr.min]="min" [attr.value]="value" (input)="onSliderChange()" #slider>
+
+  <div id="slider-progression" [ngStyle]="{width: arrowPosition + 'px'}" #progressionBox></div>
+  <div id="slider-custom-thumb" [ngStyle]="{left: arrowPosition + 'px'}"></div>
+</div>
