@@ -22,7 +22,7 @@
   <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
-  <div class="settings display-settings">
+  <div class="settings display-settings" style="display: none">
     <div class="setting-ceil">
       <span class="setting-title">Map</span>
       <span class="setting-value">{{this.lobby?.mapId}}</span>
@@ -42,6 +42,21 @@
     <div class="setting-ceil">
       <span class="setting-title">Players</span>
       <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.maxPlayers}}</span>
+    </div>
+  </div>
+
+  <div class="settings-container-wrapper">
+    <div class="settings-container">
+      <h3 class="settings-container-title">General Settings</h3>
+      <h5>Max Players</h5>
+      <app-slider [min]=0 [max]=10 [value]=5 class="slider"></app-slider>
+
+      <h5>Turn Timer</h5>
+      <app-slider [min]=30 [max]=120 [value]=60 class="slider"></app-slider>
+    </div>
+
+    <div class="settings-container">
+      <h3 class="settings-container-title">Map Selection</h3>
     </div>
   </div>
 </div>

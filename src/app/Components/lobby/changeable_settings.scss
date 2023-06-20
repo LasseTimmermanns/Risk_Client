@@ -1,0 +1,27 @@
+.settings-container{
+  background: linear-gradient(90deg, #FFFEFFd8 0%, #d7fffed8 100%);
+  width: 100%;
+  pointer-events: all;
+  border-radius: 26px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.settings-container-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2%;
+  width: 80%;
+  height: 90%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.settings-container-title{
+  width: 100%;
+  text-align: center;
+}
+
+.slider{
+  margin-top: -1000px;
+}

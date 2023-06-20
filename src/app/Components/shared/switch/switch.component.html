@@ -1,0 +1,7 @@
+<label class="switch">
+  <input type="checkbox" [checked]='checked' (change)="checked = !checked">
+  <span class="active"></span>
+  <span class="label left" [ngClass]="checked ? '' : 'selected'">{{labelLeft}}</span>
+  <span class="label right" [ngClass]="checked ? 'selected' : ''">{{labelRight}}</span>
+  <span class="slider"></span>
+</label>

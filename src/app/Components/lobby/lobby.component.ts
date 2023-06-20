@@ -16,7 +16,7 @@ import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/pla
   templateUrl: './lobby.component.html',
   styleUrls: [
     './lobby.component.scss',
-    './playerstyle.scss',
+    './changeable_settings.scss',
     './settings.scss',
     './map.scss',
   ],

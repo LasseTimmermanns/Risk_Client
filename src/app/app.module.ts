@@ -12,13 +12,14 @@ import { GameComponent } from './Components/game/game.component';
 import { LobbyComponent } from './Components/lobby/lobby.component';
 import { LandingComponent } from './Components/landing/landing.component';
 import { SearchComponent } from './Components/search/search.component';
-import { SliderComponent } from './Components/shared/slider/slider/slider.component';
+import { SliderComponent } from './Components/shared/slider/slider.component';
+import { SwitchComponent } from './Components/shared/switch/switch.component';
 
 const allRoutes: Routes = [
   {path: "", component: LandingComponent},
   {path: "explore", component: SearchComponent},
   {path: "game", component: GameComponent},
-  {path: "slider", component: SliderComponent},
+  {path: "switch", component: SwitchComponent},
   {path: "lobby/:lobbyid", component: LobbyComponent}
 ];
 
@@ -31,6 +32,7 @@ const allRoutes: Routes = [
     LandingComponent,
     SearchComponent,
     SliderComponent,
+    SwitchComponent,
   ],
   imports: [
     RouterModule.forRoot(allRoutes),
