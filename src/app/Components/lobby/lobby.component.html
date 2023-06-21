@@ -16,10 +16,7 @@
 
     <app-changeable-settings [lobby]="lobby" [identification]="queryIdentification" class="settings-container"/>
 
-    <div class="settings-container">
-      <!-- Map Selection -->
-      <h3 class="settings-container-title">Coming Soon..</h3>
-    </div>
+    <app-map-settings [selected]="lobby?.map_id" [identification]="queryIdentification" class="settings-container"/>
   </div>
 </div>
 

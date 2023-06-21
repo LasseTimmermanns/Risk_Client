@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { DisplayMap } from '../DisplayMap';
+import { DisplayMap } from '../Map';
 import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
 import { QueryIdentification } from '../QueryIdentification';
@@ -28,8 +28,8 @@ export class LobbyMapComponent {
     let svg_width = this.mapRef?.nativeElement.clientWidth;
     let svg_height = this.mapRef?.nativeElement.clientHeight;
 
-    let scale_x = svg_width / this.display_map!.width;
-    let scale_y = svg_height / this.display_map!.height;
+    let scale_x = svg_width / this.display_map!.display_width;
+    let scale_y = svg_height / this.display_map!.display_height;
 
     return [scale_x, scale_y];
   }

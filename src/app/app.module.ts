@@ -18,6 +18,7 @@ import { SwitchSettingsViewComponent } from './Components/lobby/switch-settings-
 import { LobbyMapComponent } from './Components/lobby/lobby-map/lobby-map.component';
 import { SettingsDisplayComponent } from './Components/lobby/settings-display/settings-display.component';
 import { ChangableSettingsComponent } from './Components/lobby/changable-settings/changable-settings.component';
+import { MapSettingsComponent } from './Components/lobby/map-settings/map-settings.component';
 
 const allRoutes: Routes = [
   {path: "", component: LandingComponent},
@@ -41,6 +42,7 @@ const allRoutes: Routes = [
     LobbyMapComponent,
     SettingsDisplayComponent,
     ChangableSettingsComponent,
+    MapSettingsComponent,
   ],
   imports: [
     RouterModule.forRoot(allRoutes),

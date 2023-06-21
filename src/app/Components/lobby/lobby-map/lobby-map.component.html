@@ -1,10 +1,10 @@
 <svg class="map" *ngIf="display_map"
-       [attr.viewBox]="'0 0 ' + display_map.width + ' ' + display_map.height"
+       [attr.viewBox]="'0 0 ' + display_map.display_width + ' ' + display_map.display_height"
        [attr.xmlns]="'http://www.w3.org/2000/svg'"
        [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
        #map>
 
-    <image [attr.href]="'../../../assets/'+display_map.id+'_display.png'" [attr.height]="display_map.height" [attr.width]="display_map.width" (click)="handleClick($event)"/>
+    <image [attr.href]="'../../../assets/'+display_map.id+'_display.png'" [attr.height]="display_map.display_height" [attr.width]="display_map.display_width" (click)="handleClick($event)"/>
 
     <g *ngFor="let player of players"
     [attr.transform]="'scale('+ this.scale_factor + ',' + this.scale_factor + ') translate(' + (player.flagx / this.scale_factor - 8) + ', ' + (player.flagy / this.scale_factor - this.rectheight + 8) + ')'" class="flag" >

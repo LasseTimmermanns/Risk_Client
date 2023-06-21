@@ -8,7 +8,7 @@ import { ColorChangingService } from 'src/app/Services/Lobby/Color/color-changin
 import { Lobby } from 'src/app/Services/Lobby/Lobby';
 import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { LobbyService } from 'src/app/Services/Lobby/lobby.service';
-import { DisplayMap } from './DisplayMap';
+import { DisplayMap } from './Map';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
 import { InputEvent } from '../shared/InputEvent';
 import { QueryIdentification } from './QueryIdentification';
@@ -112,7 +112,7 @@ export class LobbyComponent {
           break;
         case 'join_accepted':
           this.joinAccepted(data.data);
-          this.initializeMap(data.data);
+          this.initializeMap();
           break;
         case 'join':
           this.playerJoin(data.data);
@@ -147,6 +147,10 @@ export class LobbyComponent {
             );
             this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
+        case 'map_change':
+          this.lobby!.map_id = data.data.value;
+          this.initializeMap();
+          break;
         default:
           console.log(data);
           break;
@@ -165,8 +169,8 @@ export class LobbyComponent {
     this.sortedPlayers = this.createSortedPlayers(data);
   }
 
-  initializeMap(data: Lobby) {
-    this.lobbyService.getDisplayMap(data.map_id).subscribe((res) => {
+  initializeMap() {
+    this.lobbyService.getDisplayMap(this.lobby!.map_id).subscribe((res) => {
       this.display_map = res;
     });
   }

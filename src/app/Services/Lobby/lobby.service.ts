@@ -1,4 +1,4 @@
-import { DisplayMap } from './../../Components/lobby/DisplayMap';
+import { DisplayMap, MiniatureMap } from '../../Components/lobby/Map';
 import { LobbyWebSocketService } from './lobby-web-socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -33,6 +33,10 @@ export class LobbyService {
     let data = `{lobbyid: '${queryIdentification.lobbyid}', value: ${event.value}, token: '${queryIdentification.token}'}`
     let msg = this.lobbyWebSocketService.createMessage(event.name, data)
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg)
+  }
+
+  getAllMiniatureMaps(): Observable<MiniatureMap[]>{
+    return this.httpClient.get<MiniatureMap[]>(`${globals.spring_server}/displaymaps/all`)
   }
 
 
