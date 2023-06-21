@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { DisplayMap } from '../Map';
 import { LobbyPlayer } from 'src/app/Services/Lobby/LobbyPlayer';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
@@ -23,6 +23,15 @@ export class LobbyMapComponent {
   scale_factor: number = 0.5;
 
   constructor(private playerSettingsService: PlayerSettingsService, private colorChangingService: ColorChangingService){}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateScaleFactor()
+  }
+
+  updateScaleFactor(){
+    if(this.display_map)
+      this.scale_factor = this.display_map.display_height / 2000;
+  }
 
   getScales() {
     let svg_width = this.mapRef?.nativeElement.clientWidth;
