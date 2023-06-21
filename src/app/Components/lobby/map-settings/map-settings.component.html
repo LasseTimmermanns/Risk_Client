@@ -1,4 +1,4 @@
-<h3 class="fullwidth center">Coming Soon..</h3>
+<h3 class="fullwidth center">Map</h3>
 <div id="map-wrapper">
   <div *ngFor="let map of maps" class="container" [ngClass]="map.id === this.selected ? 'container-selected' : ''" (click)="changeMap(map.id)">
     <svg [attr.viewBox]="'0 0 ' + map.svg_width + ' ' + map.svg_height" fill="#45CD6B" xmlns="http://www.w3.org/2000/svg">

@@ -7,11 +7,11 @@
 }
 
 .map{
-  bottom: 12vh;
+  bottom: calc(7vh + 100px);
   position: absolute;
   overflow: visible;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(90vh - 100px);
 }
 
 .flag{
