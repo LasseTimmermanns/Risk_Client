@@ -5,11 +5,11 @@ import { QueryIdentification } from '../QueryIdentification';
 import { InputEvent } from '../../shared/InputEvent';
 
 @Component({
-  selector: 'app-changeable-settings',
-  templateUrl: './changeable-settings.component.html',
-  styleUrls: ['./changeable-settings.component.scss']
+  selector: 'app-general-settings',
+  templateUrl: './general-settings.component.html',
+  styleUrls: ['./general-settings.component.scss']
 })
-export class ChangableSettingsComponent {
+export class GeneralSettingsComponent {
 
   @Input() lobby?: Lobby;
   @Input("identification") queryIdentification?: QueryIdentification;

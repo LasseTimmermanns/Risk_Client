@@ -17,7 +17,7 @@ import { SwitchComponent } from './Components/shared/switch/switch.component';
 import { SwitchSettingsViewComponent } from './Components/lobby/switch-settings-view/switch-settings-view.component';
 import { LobbyMapComponent } from './Components/lobby/lobby-map/lobby-map.component';
 import { SettingsDisplayComponent } from './Components/lobby/settings-display/settings-display.component';
-import { ChangableSettingsComponent } from './Components/lobby/changable-settings/changable-settings.component';
+import { GeneralSettingsComponent } from './Components/lobby/general-settings/general-settings.component';
 import { MapSettingsComponent } from './Components/lobby/map-settings/map-settings.component';
 
 const allRoutes: Routes = [
@@ -41,7 +41,7 @@ const allRoutes: Routes = [
     SwitchSettingsViewComponent,
     LobbyMapComponent,
     SettingsDisplayComponent,
-    ChangableSettingsComponent,
+    GeneralSettingsComponent,
     MapSettingsComponent,
   ],
   imports: [

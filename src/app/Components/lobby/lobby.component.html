@@ -14,7 +14,7 @@
 
   <div class="animate settings settings-container-wrapper" [ngClass]="draw_settings_menu ? 'intransparent' : 'transparent'" >
 
-    <app-changeable-settings [lobby]="lobby" [identification]="queryIdentification" class="settings-container"/>
+    <app-general-settings [lobby]="lobby" [identification]="queryIdentification" class="settings-container"/>
 
     <app-map-settings [selected]="lobby?.map_id" [identification]="queryIdentification" class="settings-container"/>
   </div>
