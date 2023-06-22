@@ -1,4 +1,5 @@
-<div id="wrapper">
+<div class="scroll" id="scroll-left" (click)="scroll(-1)"  [ngClass]="scrollable ? '' : 'invisible'"></div>
+<div id="wrapper" #wrapper>
   <div class="setting-ceil">
     <span class="setting-title">Map</span>
     <span class="setting-value">{{this.lobby?.map_id}}</span>
@@ -19,4 +20,7 @@
     <span class="setting-title">Players</span>
     <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.max_players}}</span>
   </div>
+</div>
+<div class="scroll" id="scroll-right" (click)="scroll(1)"  [ngClass]="scrollable ? '' : 'invisible'">
+
 </div>

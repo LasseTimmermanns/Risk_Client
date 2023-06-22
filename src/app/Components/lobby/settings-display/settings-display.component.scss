@@ -5,17 +5,17 @@
   color: white;
   padding: 20px;
   box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
 }
 
 #wrapper{
   display: flex;
+  flex-direction: row;
   align-items: stretch;
-  justify-content: space-around;
-  overflow-x: auto;
-  overflow-y: hidden;
+  justify-content: space-between;
+  flex-wrap: nowrap;
   gap: 5%;
-  width: 100%;
-  height: 100%;
 }
 
 .setting-title{

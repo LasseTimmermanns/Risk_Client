@@ -1,0 +1,42 @@
+.arrow{
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.scroll{
+  width: auto;
+  height: 100%;
+  background-image: url('../../../../assets/arrow.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: .4s ease-out;
+}
+
+#scroll-left:hover{
+  transform: scale(1.1);
+}
+
+#scroll-right:hover{
+  transform: scale(-1.1, 1.1);
+}
+
+#scroll-right{
+  transform: scale(-1, 1);
+}
+
+#wrapper{
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.invisible{
+  opacity: 0;
+}
