@@ -1,8 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColorChangingService } from 'src/app/Services/Lobby/Color/color-changing.service';
 import { Lobby } from 'src/app/Services/Lobby/Lobby';
@@ -29,12 +25,15 @@ export class LobbyComponent {
   display_map?: DisplayMap;
   socket!: WebSocket;
 
-  queryIdentification: QueryIdentification = new QueryIdentification("", "", this.socket);
+  queryIdentification: QueryIdentification = new QueryIdentification(
+    '',
+    '',
+    this.socket
+  );
 
   draw_settings_menu: boolean = false;
 
   is_host: boolean = false;
-
 
   names = [
     'Lasse',
@@ -70,16 +69,18 @@ export class LobbyComponent {
     });
   }
 
-  updatePlayerIsHost(){
-    const index_host: number = this.lobby!.players.findIndex((player) => player.host === true);
+  updatePlayerIsHost() {
+    const index_host: number = this.lobby!.players.findIndex(
+      (player) => player.host === true
+    );
     const host_id: string = this.lobby!.players[index_host].id;
 
-    this.is_host = host_id === this.playerid
-    return this.is_host
+    this.is_host = host_id === this.playerid;
+    return this.is_host;
   }
 
-  switch_view(){
-    if(!this.is_host) return;
+  switch_view() {
+    if (!this.is_host) return;
     this.draw_settings_menu = !this.draw_settings_menu;
   }
 
@@ -98,13 +99,15 @@ export class LobbyComponent {
 
   receiveMessages(socket: WebSocket): void {
     socket.onmessage = (event) => {
+      console.log(event.data);
+      console.log("--")
       let data = JSON.parse(event.data);
       let eventType = data.event;
 
-      console.log("---")
-      console.log(eventType)
-      console.log(data.data);
-      console.log("---")
+      // console.log('---');
+      // console.log(eventType);
+      // console.log(data.data);
+      // console.log('---');
 
       switch (eventType) {
         case 'declined':
@@ -144,8 +147,8 @@ export class LobbyComponent {
             data.data.flagx,
             data.data.flagy,
             this.lobby!
-            );
-            this.sortedPlayers = this.createSortedPlayers(this.lobby!);
+          );
+          this.sortedPlayers = this.createSortedPlayers(this.lobby!);
           break;
         case 'map_change':
           this.lobby!.map_id = data.data.value;
@@ -165,34 +168,40 @@ export class LobbyComponent {
 
   joinAccepted(data: Lobby) {
     this.lobby = data;
-    this.updatePlayerIsHost()
+    this.updatePlayerIsHost();
     this.sortedPlayers = this.createSortedPlayers(data);
   }
 
   initializeMap() {
+    console.log(this.lobby!.map_id)
     this.lobbyService.getDisplayMap(this.lobby!.map_id).subscribe((res) => {
       this.display_map = res;
+      console.log("New Map")
+      console.log(res)
     });
   }
-
 
   playerJoin(data: LobbyPlayer) {
     this.lobby!.players.push(data);
   }
 
   playerQuit(data: any) {
-    if(!this.lobby) return;
+    if (!this.lobby) return;
 
     const id = data.id;
-    const index_quit = this.lobby.players.findIndex((player) => player.id === id);
+    const index_quit = this.lobby.players.findIndex(
+      (player) => player.id === id
+    );
 
     if (index_quit != -1) this.lobby.players.splice(index_quit!, 1);
 
-    const new_host_id : string = data.host;
-    const index_host: number = this.lobby.players.findIndex((player) => player.id === new_host_id);
+    const new_host_id: string = data.host;
+    const index_host: number = this.lobby.players.findIndex(
+      (player) => player.id === new_host_id
+    );
 
     this.lobby.players[index_host].host = true;
-    this.updatePlayerIsHost()
+    this.updatePlayerIsHost();
   }
 
   createSortedPlayers(lobby: Lobby) {

@@ -5,17 +5,17 @@ import { Injectable } from '@angular/core';
 })
 export class LobbyWebSocketService {
 
-  constructor() { }
-
   sendMessage(socket: WebSocket, data: string){
     socket.send(data);
   }
 
-  createMessage(event: string, data: string){
-    return `{"event":"${event}","data":${data}}`;
+  createMessage(event: string, data: any){
+    const obj = {"event": event, "data": data}
+    return JSON.stringify(obj);
   }
 
-  createEventMessage(event: string){
-    return `{"event":"${event}"}`
+  createEventMessage(event: any){
+    const obj = {"event": event}
+    return JSON.stringify(obj)
   }
 }

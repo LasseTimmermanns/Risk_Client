@@ -19,7 +19,6 @@ export class ColorChangingService {
   constructor(private lobbyWebSocketService: LobbyWebSocketService, private httpClient: HttpClient) {
     this.httpClient.get<Color[]>(`${globals.spring_server}/settings/colors/all`).subscribe(colors => {
       this.colors = colors;
-      console.log("Colors: " + colors);
       this.colorIndex =  Math.floor(Math.random()*colors.length)
     });
   }
@@ -46,7 +45,7 @@ export class ColorChangingService {
       color = this.colors[this.colorIndex];
     }while(!this.colorIsFree(color.hex, players))
 
-    const data = `{"lobbyid":"${queryIdentification.lobbyid}","token":"${queryIdentification.token}","hex":"${color.hex}"}`;
+    const data = {"lobbyid": queryIdentification.lobbyid, "token": queryIdentification.token, "hex": color.hex};
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, this.lobbyWebSocketService.createMessage("color_change", data))
   }
 

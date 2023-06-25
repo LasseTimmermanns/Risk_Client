@@ -11,6 +11,6 @@ export class MiniatureMap{
   id!: string;
   svg_width!: number;
   svg_height!: number;
-  path!: string;
+  display_path!: string;
 
 }

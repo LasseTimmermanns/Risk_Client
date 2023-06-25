@@ -19,19 +19,14 @@ export class LobbyService {
     this.lobbyWebSocketService.sendMessage(socket, msg);
   }
 
-  changePrivacy(lobbyid: string, new_privacy: boolean, token: string, socket: WebSocket){
-    let data = `{lobbyid: '${lobbyid}', isPublic: ${new_privacy}, token: '${token}'}`
-    let msg = this.lobbyWebSocketService.createMessage("privacy_change", data)
-    this.lobbyWebSocketService.sendMessage(socket, msg)
-  }
-
   getDisplayMap(map_id: string): Observable<DisplayMap>{
     return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
   }
 
   changeAttribute(event: InputEvent, queryIdentification: QueryIdentification){
-    let data = `{lobbyid: '${queryIdentification.lobbyid}', value: ${event.value}, token: '${queryIdentification.token}'}`
-    let msg = this.lobbyWebSocketService.createMessage(event.name, data)
+    const data = {"lobbyid": queryIdentification.lobbyid, "value": event.value, "token": queryIdentification.token}
+    const msg = this.lobbyWebSocketService.createMessage(event.name, data)
+
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg)
   }
 

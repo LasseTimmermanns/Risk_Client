@@ -8,7 +8,7 @@
           <stop offset="100%" style="stop-color:#D4FC79;stop-opacity:1" />
         </linearGradient>
       </defs>
-      <path [attr.d]="map.path" [attr.fill]="'url(#bg)'"/>
+      <path [attr.d]="map.display_path" [attr.fill]="'url(#bg)'"/>
     </svg>
     <span class="map-name" [ngClass]="map.id === this.selected ? 'name-selected' : ''">{{map.id}}</span>
   </div>
