@@ -5,7 +5,7 @@
     [identification]="queryIdentification"
     [playerid]="playerid"/>
 
-  <img class="navigationbutton forwards" src="../../../assets/forwards.svg">
+  <img class="navigationbutton forwards" src="../../../assets/forwards.svg" (click)="start()">
   <img class="navigationbutton backwards" src="../../../assets/backwards.svg" (click)="leave()">
 
   <app-switch-settings-view id="switchView" *ngIf="is_host" (click)="switch_view()" [open]="draw_settings_menu"/>

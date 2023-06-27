@@ -215,4 +215,8 @@ export class LobbyComponent {
   leave() {
     this.lobbyService.leave(this.socket);
   }
+
+  start(){
+    this.lobbyService.start(this.queryIdentification);
+  }
 }

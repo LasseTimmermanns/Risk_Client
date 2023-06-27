@@ -19,6 +19,13 @@ export class LobbyService {
     this.lobbyWebSocketService.sendMessage(socket, msg);
   }
 
+  start(queryIdentification: QueryIdentification){
+    const data = {"lobbyid": queryIdentification.lobbyid, "token": queryIdentification.token}
+    let msg = this.lobbyWebSocketService.createMessage("start_game", data);
+
+    this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg);
+  }
+
   getDisplayMap(map_id: string): Observable<DisplayMap>{
     return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
   }
