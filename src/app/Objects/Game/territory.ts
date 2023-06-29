@@ -1,5 +1,4 @@
-export class Territory{
-
+export class MapTerritory{
   name: string;
   path: string;
   id: number;
@@ -12,4 +11,16 @@ export class Territory{
     this.borders = borders;
   }
 
+}
+
+export class GameTerritory{
+  id: number;
+  troops: number;
+  owner: string;
+
+  constructor(id: number, troops: number, owner: string){
+    this.id = id;
+    this.troops = troops;
+    this.owner = owner;
+  }
 }

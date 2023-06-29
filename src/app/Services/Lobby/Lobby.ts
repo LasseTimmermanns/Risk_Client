@@ -1,4 +1,4 @@
-import { Color } from "../Settings/Color";
+import { Color } from "../../Objects/Game/color";
 import { LobbyPlayer } from "./LobbyPlayer";
 
 export class Lobby{

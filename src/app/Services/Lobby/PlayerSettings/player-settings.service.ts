@@ -17,7 +17,7 @@ export class PlayerSettingsService {
   }
 
   changeFlagPosition(x: number, y: number, queryIdentification: QueryIdentification){
-    const data = {"flagx": x, "flagy": y, "token": queryIdentification.token, "lobbyid": queryIdentification.lobbyid};
+    const data = {"flagx": x, "flagy": y, "token": queryIdentification.token, "lobbyid": queryIdentification.roomid};
     let msg = this.lobbyWebSocketService.createMessage("flagposition_update", data)
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg)
   }

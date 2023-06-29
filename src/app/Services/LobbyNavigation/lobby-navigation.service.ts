@@ -11,7 +11,7 @@ export class LobbyNavigationService {
   constructor(private httpClient: HttpClient, private router: Router){}
 
   createGame() {
-     this.httpClient.post<any>(`${globals.spring_server}/lobbies/create`, {}).subscribe(res=>{
+     this.httpClient.post<any>(`${globals.spring_httpserver}/lobbies/create`, {}).subscribe(res=>{
       this.joinGame(res.lobbyid);
      })
   }

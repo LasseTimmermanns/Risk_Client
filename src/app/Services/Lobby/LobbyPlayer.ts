@@ -1,4 +1,4 @@
-import { Color } from "../Settings/Color";
+import { Color } from "../../Objects/Game/color";
 
 export class LobbyPlayer{
   id: string;

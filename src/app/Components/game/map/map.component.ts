@@ -1,7 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MapService } from 'src/app/Services/map.service';
-import { Map } from './map';
-
+import { Component, Input } from '@angular/core';
+import { Map } from 'src/app/Objects/Game/map';
 
 @Component({
   selector: 'app-map',

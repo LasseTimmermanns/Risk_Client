@@ -20,25 +20,25 @@ export class LobbyService {
   }
 
   start(queryIdentification: QueryIdentification){
-    const data = {"lobbyid": queryIdentification.lobbyid, "token": queryIdentification.token}
+    const data = {"lobbyid": queryIdentification.roomid, "token": queryIdentification.token}
     let msg = this.lobbyWebSocketService.createMessage("start_game", data);
 
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg);
   }
 
   getDisplayMap(map_id: string): Observable<DisplayMap>{
-    return this.httpClient.get<DisplayMap>(`${globals.spring_server}/displaymaps/${map_id}`)
+    return this.httpClient.get<DisplayMap>(`${globals.spring_httpserver}/displaymaps/${map_id}`)
   }
 
   changeAttribute(event: InputEvent, queryIdentification: QueryIdentification){
-    const data = {"lobbyid": queryIdentification.lobbyid, "value": event.value, "token": queryIdentification.token}
+    const data = {"lobbyid": queryIdentification.roomid, "value": event.value, "token": queryIdentification.token}
     const msg = this.lobbyWebSocketService.createMessage(event.name, data)
 
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, msg)
   }
 
   getAllMiniatureMaps(): Observable<MiniatureMap[]>{
-    return this.httpClient.get<MiniatureMap[]>(`${globals.spring_server}/displaymaps/all`)
+    return this.httpClient.get<MiniatureMap[]>(`${globals.spring_httpserver}/displaymaps/all`)
   }
 
 

@@ -1,3 +1,4 @@
+import { globals } from 'src/app/globals';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColorChangingService } from 'src/app/Services/Lobby/Color/color-changing.service';
@@ -8,6 +9,7 @@ import { DisplayMap } from './Map';
 import { PlayerSettingsService } from 'src/app/Services/Lobby/PlayerSettings/player-settings.service';
 import { InputEvent } from '../shared/InputEvent';
 import { QueryIdentification } from './QueryIdentification';
+import { WebSocketService } from 'src/app/Services/Shared/WebSocket/web-socket.service';
 
 @Component({
   selector: 'app-lobby',
@@ -55,17 +57,18 @@ export class LobbyComponent {
     private router: Router,
     private lobbyService: LobbyService,
     private colorChangingService: ColorChangingService,
-    private playerSettingsService: PlayerSettingsService
+    private playerSettingsService: PlayerSettingsService,
+    private webSocketService: WebSocketService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.queryIdentification.lobbyid = params['lobbyid'];
+      this.queryIdentification.roomid = params['lobbyid'];
       let name = this.names[Math.floor(Math.random() * this.names.length)];
-      this.socket = this.connect(this.queryIdentification.lobbyid, name);
+      this.socket = this.connect(this.queryIdentification.roomid, name);
       this.queryIdentification.socket = this.socket;
       this.receiveMessages(this.socket);
-      this.redirectOnSocketClose(this.socket);
+      this.webSocketService.redirectOnSocketClose(this.socket);
     });
   }
 
@@ -86,15 +89,8 @@ export class LobbyComponent {
 
   connect(lobbyid: string, playername: string): WebSocket {
     return new WebSocket(
-      `ws://localhost:8080/lobby?lobby=${lobbyid}&playername=${playername}`
+      `ws://${globals.spring_server}/lobby?lobby=${lobbyid}&playername=${playername}`
     );
-  }
-
-  redirectOnSocketClose(socket: WebSocket) {
-    socket.onclose = (event) => {
-      // console.log('closed');
-      this.router.navigate(['']);
-    };
   }
 
   receiveMessages(socket: WebSocket): void {
@@ -173,11 +169,8 @@ export class LobbyComponent {
   }
 
   initializeMap() {
-    console.log(this.lobby!.map_id)
     this.lobbyService.getDisplayMap(this.lobby!.map_id).subscribe((res) => {
       this.display_map = res;
-      console.log("New Map")
-      console.log(res)
     });
   }
 

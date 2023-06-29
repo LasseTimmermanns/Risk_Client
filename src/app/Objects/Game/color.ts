@@ -9,3 +9,13 @@ export class Color{
     this.text_color = text_color;
   }
 }
+
+export class ColorChange{
+  playerid: string;
+  color: Color;
+
+  constructor(playerid: string, color: Color){
+    this.playerid = playerid;
+    this.color = color;
+  }
+}

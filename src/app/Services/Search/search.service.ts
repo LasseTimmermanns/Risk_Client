@@ -11,7 +11,7 @@ export class SearchService {
   constructor(private httpClient : HttpClient) { }
 
   getLobbies(){
-    return this.httpClient.get<DisplayLobby[]>(`${globals.spring_server}/lobbies/getall`);
+    return this.httpClient.get<DisplayLobby[]>(`${globals.spring_httpserver}/lobbies/getall`);
   }
 
 }

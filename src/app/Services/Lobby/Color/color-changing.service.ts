@@ -1,7 +1,6 @@
 import { Lobby } from './../Lobby';
 import { Injectable } from '@angular/core';
-import { ColorChange } from '../../Settings/ColorChange';
-import { Color } from '../../Settings/Color';
+import { Color, ColorChange } from '../../../Objects/Game/color';
 import { LobbyWebSocketService } from '../lobby-web-socket.service';
 import { HttpClient } from '@angular/common/http';
 import { globals } from 'src/app/globals';
@@ -17,7 +16,7 @@ export class ColorChangingService {
   colorIndex: number = 0;
 
   constructor(private lobbyWebSocketService: LobbyWebSocketService, private httpClient: HttpClient) {
-    this.httpClient.get<Color[]>(`${globals.spring_server}/settings/colors/all`).subscribe(colors => {
+    this.httpClient.get<Color[]>(`${globals.spring_httpserver}/settings/colors/all`).subscribe(colors => {
       this.colors = colors;
       this.colorIndex =  Math.floor(Math.random()*colors.length)
     });
@@ -45,7 +44,7 @@ export class ColorChangingService {
       color = this.colors[this.colorIndex];
     }while(!this.colorIsFree(color.hex, players))
 
-    const data = {"lobbyid": queryIdentification.lobbyid, "token": queryIdentification.token, "hex": color.hex};
+    const data = {"lobbyid": queryIdentification.roomid, "token": queryIdentification.token, "hex": color.hex};
     this.lobbyWebSocketService.sendMessage(queryIdentification.socket, this.lobbyWebSocketService.createMessage("color_change", data))
   }
 

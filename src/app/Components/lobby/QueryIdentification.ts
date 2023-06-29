@@ -1,10 +1,10 @@
 export class QueryIdentification{
-  public lobbyid: string;
+  public roomid: string;
   public token: string;
   public socket: WebSocket;
 
   constructor(lobbyid: string, token: string, socket: WebSocket){
-    this.lobbyid = lobbyid;
+    this.roomid = lobbyid;
     this.token = token;
     this.socket = socket;
   }
