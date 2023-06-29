@@ -1,4 +1,4 @@
-export class globals{
-  public static spring_httpserver = "http://localhost:8080";
-  public static spring_server = "localhost:8080";
+export class globals {
+  public static springHttpServer = 'http://localhost:8080';
+  public static springServer = 'localhost:8080';
 }

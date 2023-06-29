@@ -1,0 +1,26 @@
+<div class="scroll" id="scroll-left" (click)="scroll(-1)"  [ngClass]="scrollable ? '' : 'invisible'"></div>
+<div id="wrapper" #wrapper>
+  <div class="setting-ceil">
+    <span class="setting-title">Map</span>
+    <span class="setting-value">{{this.lobby?.mapId}}</span>
+  </div>
+  <div class="setting-ceil">
+    <span class="setting-title">Card Bonus</span>
+    <span class="setting-value">{{this.lobby?.isFixed ? "fixed" : "progressive"}}</span>
+  </div>
+  <div class="setting-ceil">
+    <span class="setting-title">Lobby Visibility</span>
+    <span class="setting-value">{{this.lobby?.isPublic ? "public" : "private"}}</span>
+  </div>
+  <div class="setting-ceil">
+    <span class="setting-title">Turn Timer</span>
+    <span class="setting-value">{{this.lobby?.turnTimer}}s</span>
+  </div>
+  <div class="setting-ceil">
+    <span class="setting-title">Players</span>
+    <span class="setting-value">{{this.lobby?.players?.length}} / {{this.lobby?.maxPlayers}}</span>
+  </div>
+</div>
+<div class="scroll" id="scroll-right" (click)="scroll(1)"  [ngClass]="scrollable ? '' : 'invisible'">
+
+</div>

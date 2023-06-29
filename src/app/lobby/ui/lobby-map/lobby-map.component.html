@@ -1,0 +1,19 @@
+<svg class="map" *ngIf="displayMap"
+       [attr.viewBox]="'0 0 ' + displayMap.displayWidth + ' ' + displayMap.displayHeight"
+       [attr.xmlns]="'http://www.w3.org/2000/svg'"
+       [attr.xmlns:xlink]="'http://www.w3.org/1999/xlink'"
+       #map>
+
+    <image [attr.href]="'../../../assets/'+displayMap.id+'_display.png'" [attr.height]="displayMap.displayHeight" [attr.width]="displayMap.displayWidth" (click)="handleClick($event)"/>
+
+    <g *ngFor="let player of players"
+    [attr.transform]="'scale('+ this.scaleFactor + ',' + this.scaleFactor + ') translate(' + (player.flagx / this.scaleFactor - 8) + ', ' + (player.flagy / this.scaleFactor - this.rectHeight + 8) + ')'" class="flag" >
+    <rect x="4" y="12" width="16" height="320" rx="8" fill="#7B7B7B"/>
+    <circle cx="12" cy="12" r="12" fill="#7B7B7B"/>
+    <path d="M4 33H260L206.5 87.5L260 142H4V33Z" [attr.fill]="player.color.hex" (click)="this.changeColor(player.id)"/>
+    <text x="105" y="88" font-size="35" class="playername-display" [attr.fill]="player.color.textColor"
+    [attr.font-weight]="player.host ? 700 : 400" dominant-baseline="middle" text-anchor="middle" (click)="this.changeColor(player.id)">
+      {{player.name}}
+    </text>
+  </g>
+</svg>

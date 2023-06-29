@@ -1,0 +1,51 @@
+<div class="wrapper">
+  <app-lobby-map
+    id="map"
+    [map]="display_map"
+    [players]="lobby?.players"
+    [identification]="queryIdentification"
+    [playerId]="playerId"
+  />
+
+  <img
+    class="navigationbutton forwards"
+    src="../../../assets/forwards.svg"
+    (click)="start()"
+  />
+  <img
+    class="navigationbutton backwards"
+    src="../../../assets/backwards.svg"
+    (click)="leave()"
+  />
+
+  <app-switch-settings-view
+    id="switchView"
+    *ngIf="is_host"
+    (click)="switchView()"
+    [open]="draw_settings_menu"
+  />
+
+  <app-settings-display
+    [lobby]="lobby"
+    class="animate"
+    id="settings-display"
+    [ngClass]="draw_settings_menu ? 'transparent' : 'intransparent'"
+  />
+
+  <div
+    class="animate settings settings-container-wrapper"
+    [ngClass]="draw_settings_menu ? 'intransparent' : 'transparent'"
+  >
+    <app-general-settings
+      [lobby]="lobby"
+      [identification]="queryIdentification"
+      class="settings-container"
+    />
+
+    <app-map-settings
+      [selected]="lobby?.mapId"
+      [identification]="queryIdentification"
+      class="settings-container"
+    />
+  </div>
+</div>
