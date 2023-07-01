@@ -207,6 +207,7 @@ export class LobbyComponent {
   }
 
   startedGame() {
+    this.lobbyService.saveDataInCookie(this.queryIdentification!);
     this.router.navigate(['/game']);
   }
 }

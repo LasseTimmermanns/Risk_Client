@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
+import { CookieService } from 'src/app/shared/utils/cookie/cookie.service';
 import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
 import { InputEvent } from '../data_access/input-event';
 import { DisplayMap, MiniatureMap } from '../data_access/lobby-map';
@@ -13,7 +14,8 @@ import { DisplayMap, MiniatureMap } from '../data_access/lobby-map';
 export class LobbyService {
   constructor(
     private webSocketService: WebSocketService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private cookieService: CookieService
   ) {}
 
   leave(socket: WebSocket) {
@@ -52,5 +54,10 @@ export class LobbyService {
     return this.httpClient.get<MiniatureMap[]>(
       `${globals.springHttpServer}/displaymaps/all`
     );
+  }
+
+  saveDataInCookie(queryIdentification: QueryIdentification) {
+    this.cookieService.setCookie('gameId', queryIdentification.roomId, 1);
+    this.cookieService.setCookie('token', queryIdentification.token, 1);
   }
 }
