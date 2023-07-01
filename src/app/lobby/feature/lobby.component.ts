@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
 import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
@@ -44,6 +44,7 @@ export class LobbyComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private lobbyService: LobbyService,
     private colorChangingService: ColorChangingService,
     private playerSettingsService: FlagPositionService,
@@ -137,6 +138,9 @@ export class LobbyComponent {
           this.lobby!.mapId = data.data.value;
           this.initializeMap();
           break;
+        case 'start_game':
+          this.startedGame();
+          break;
         default:
           console.log(data);
           break;
@@ -200,5 +204,9 @@ export class LobbyComponent {
   start() {
     if (!this.queryIdentification) return;
     this.lobbyService.start(this.queryIdentification);
+  }
+
+  startedGame() {
+    this.router.navigate(['/game']);
   }
 }
