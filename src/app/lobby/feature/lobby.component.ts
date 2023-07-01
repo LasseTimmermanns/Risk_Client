@@ -2,12 +2,11 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
-import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
 import { DisplayMap } from '../../lobby/data_access/lobby-map';
 import { Lobby } from '../data_access/lobby';
 import { LobbyPlayer } from '../data_access/lobby-player';
 import { ColorChangingService } from '../utils/color-changing.service';
-import { FlagPositionService } from '../utils/flag-position.service';
+import { FlagPosition } from '../utils/flag-position.service';
 import { LobbyService } from '../utils/lobby.service';
 
 @Component({
@@ -46,9 +45,7 @@ export class LobbyComponent {
     private route: ActivatedRoute,
     private router: Router,
     private lobbyService: LobbyService,
-    private colorChangingService: ColorChangingService,
-    private playerSettingsService: FlagPositionService,
-    private webSocketService: WebSocketService
+    private colorChangingService: ColorChangingService
   ) {}
 
   ngOnInit(): void {
@@ -58,9 +55,10 @@ export class LobbyComponent {
 
       this.connect(roomId, name).then(() => {
         this.receiveMessages(this.queryIdentification!.socket);
-        this.webSocketService.redirectOnSocketClose(
-          this.queryIdentification!.socket
-        );
+        // WebSocketHelper.redirectOnSocketClose(
+        //   this.queryIdentification!.socket,
+        //   this.router
+        // );
       });
     });
   }
@@ -126,7 +124,7 @@ export class LobbyComponent {
           this.colorChangingService.colorChanged(data.data, this.lobby!);
           break;
         case 'flagposition_update':
-          this.playerSettingsService.flagPositionChange(
+          FlagPosition.flagPositionChange(
             data.data.playerId,
             data.data.flagx,
             data.data.flagy,

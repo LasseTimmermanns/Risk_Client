@@ -9,7 +9,7 @@ import { QueryIdentification } from '../../../shared/data_access/query-identific
 import { DisplayMap } from '../../data_access/lobby-map';
 import { LobbyPlayer } from '../../data_access/lobby-player';
 import { ColorChangingService } from '../../utils/color-changing.service';
-import { FlagPositionService } from '../../utils/flag-position.service';
+import { FlagPosition } from '../../utils/flag-position.service';
 
 @Component({
   selector: 'app-lobby-map',
@@ -27,10 +27,7 @@ export class LobbyMapComponent {
   rectHeight: number = 332;
   scaleFactor: number = 0.5;
 
-  constructor(
-    private flagPositionService: FlagPositionService,
-    private colorChangingService: ColorChangingService
-  ) {}
+  constructor(private colorChangingService: ColorChangingService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateScaleFactor();
@@ -58,11 +55,7 @@ export class LobbyMapComponent {
     let flagX = event.offsetX / scaleX;
     let flagY = event.offsetY / scaleY;
 
-    this.flagPositionService.changeFlagPosition(
-      flagX,
-      flagY,
-      this.queryIdentification!
-    );
+    FlagPosition.changeFlagPosition(flagX, flagY, this.queryIdentification!);
   }
 
   changeColor(playerId: string) {

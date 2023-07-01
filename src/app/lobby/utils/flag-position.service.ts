@@ -1,15 +1,9 @@
-import { Injectable } from '@angular/core';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
-import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
+import { WebSocketHelper } from 'src/app/shared/utils/web_socket/web-socket';
 import { Lobby } from '../data_access/lobby';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class FlagPositionService {
-  constructor(private webSocketService: WebSocketService) {}
-
-  flagPositionChange(
+export class FlagPosition {
+  static flagPositionChange(
     playerId: string,
     flagx: number,
     flagy: number,
@@ -22,7 +16,7 @@ export class FlagPositionService {
     lobby.players[playerIndex].flagy = flagy;
   }
 
-  changeFlagPosition(
+  static changeFlagPosition(
     x: number,
     y: number,
     queryIdentification: QueryIdentification
@@ -33,7 +27,7 @@ export class FlagPositionService {
       token: queryIdentification.token,
       lobbyId: queryIdentification.roomId,
     };
-    let msg = this.webSocketService.createMessage('flagposition_update', data);
-    this.webSocketService.sendMessage(queryIdentification.socket, msg);
+    let msg = WebSocketHelper.createMessage('flagposition_update', data);
+    queryIdentification.socket.send(msg);
   }
 }

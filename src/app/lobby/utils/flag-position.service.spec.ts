@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FlagPositionService } from './flag-position.service';
+import { FlagPosition } from './flag-position.service';
 
 describe('PlayerSettingsService', () => {
-  let service: FlagPositionService;
+  let service: FlagPosition;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FlagPositionService);
+    service = TestBed.inject(FlagPosition);
   });
 
   it('should be created', () => {

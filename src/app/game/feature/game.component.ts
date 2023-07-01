@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Map } from 'src/app/game/data_access/map';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
 import { CookieService } from 'src/app/shared/utils/cookie/cookie.service';
-import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
+import { WebSocketHelper } from 'src/app/shared/utils/web_socket/web-socket';
 import { MapService } from '../utils/map.service';
 
 @Component({
@@ -19,25 +20,35 @@ export class GameComponent implements OnInit {
   constructor(
     private cookieService: CookieService,
     private mapService: MapService,
-    private webSocketService: WebSocketService
+    private router: Router
   ) {
     this.retrieveMap();
   }
 
   ngOnInit(): void {
     this.connect();
-    this.webSocketService.redirectOnSocketClose(
-      this.queryIdentification.socket
+    WebSocketHelper.redirectOnSocketClose(
+      this.queryIdentification.socket,
+      this.router
     );
   }
 
   connect() {
-    const roomid = this.cookieService.getCookie('gameId');
+    const roomId = this.cookieService.getCookie('gameId');
     const token = this.cookieService.getCookie('token');
-    const socket = new WebSocket(
-      `ws://${globals.springServer}/game?game=${this.queryIdentification.roomId}&token=${this.queryIdentification.token}`
-    );
-    this.queryIdentification = new QueryIdentification(roomid, token, socket);
+    const socket = new WebSocket(`ws://${globals.springServer}/game`);
+
+    socket.onopen = (e) => {
+      const msg = WebSocketHelper.createMessage('join', {
+        gameId: roomId,
+        token: token,
+      });
+
+      console.log(socket);
+      socket.send(msg);
+    };
+
+    this.queryIdentification = new QueryIdentification(roomId, token, socket);
   }
 
   retrieveMap() {

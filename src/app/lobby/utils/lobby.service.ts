@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
 import { CookieService } from 'src/app/shared/utils/cookie/cookie.service';
-import { WebSocketService } from 'src/app/shared/utils/web_socket/web-socket.service';
+import { WebSocketHelper } from 'src/app/shared/utils/web_socket/web-socket';
 import { InputEvent } from '../data_access/input-event';
 import { DisplayMap, MiniatureMap } from '../data_access/lobby-map';
 
@@ -13,14 +13,13 @@ import { DisplayMap, MiniatureMap } from '../data_access/lobby-map';
 })
 export class LobbyService {
   constructor(
-    private webSocketService: WebSocketService,
     private httpClient: HttpClient,
     private cookieService: CookieService
   ) {}
 
   leave(socket: WebSocket) {
-    let msg = this.webSocketService.createEventMessage('leave');
-    this.webSocketService.sendMessage(socket, msg);
+    let msg = WebSocketHelper.createEventMessage('leave');
+    socket.send(msg);
   }
 
   start(queryIdentification: QueryIdentification) {
@@ -28,9 +27,9 @@ export class LobbyService {
       lobbyId: queryIdentification.roomId,
       token: queryIdentification.token,
     };
-    let msg = this.webSocketService.createMessage('start_game', data);
+    let msg = WebSocketHelper.createMessage('start_game', data);
 
-    this.webSocketService.sendMessage(queryIdentification.socket, msg);
+    queryIdentification.socket.send(msg);
   }
 
   getDisplayMap(map_id: string): Observable<DisplayMap> {
@@ -45,9 +44,9 @@ export class LobbyService {
       value: event.value,
       token: queryIdentification.token,
     };
-    const msg = this.webSocketService.createMessage(event.name, data);
+    const msg = WebSocketHelper.createMessage(event.name, data);
 
-    this.webSocketService.sendMessage(queryIdentification.socket, msg);
+    queryIdentification.socket.send(msg);
   }
 
   getAllMiniatureMaps(): Observable<MiniatureMap[]> {
