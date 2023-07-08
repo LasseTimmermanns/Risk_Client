@@ -50,6 +50,10 @@ export class GameComponent implements OnInit {
       socket.send(msg);
     };
 
+    socket.onclose = (e) => {
+      this.router.navigate(['']);
+    };
+
     this.queryIdentification = new QueryIdentification(roomId, token, socket);
   }
 
@@ -64,6 +68,11 @@ export class GameComponent implements OnInit {
       let data = JSON.parse(event.data);
       let eventType = data.event;
       console.log(data);
+
+      switch (eventType) {
+        case 'declined':
+          console.log('Declined');
+      }
     };
   }
 }
