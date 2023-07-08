@@ -31,6 +31,8 @@ export class GameComponent implements OnInit {
       this.queryIdentification.socket,
       this.router
     );
+
+    this.receiveMessages(this.queryIdentification.socket);
   }
 
   connect() {
@@ -55,5 +57,13 @@ export class GameComponent implements OnInit {
     this.mapService.getMap('classic').subscribe((curmap) => {
       this.map = curmap;
     });
+  }
+
+  receiveMessages(socket: WebSocket) {
+    socket.onmessage = (event) => {
+      let data = JSON.parse(event.data);
+      let eventType = data.event;
+      console.log(data);
+    };
   }
 }
