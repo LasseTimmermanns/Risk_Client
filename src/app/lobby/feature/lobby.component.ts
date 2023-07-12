@@ -55,10 +55,6 @@ export class LobbyComponent {
 
       this.connect(roomId, name).then(() => {
         this.receiveMessages(this.queryIdentification!.socket);
-        // WebSocketHelper.redirectOnSocketClose(
-        //   this.queryIdentification!.socket,
-        //   this.router
-        // );
       });
     });
   }
@@ -94,6 +90,7 @@ export class LobbyComponent {
       switch (eventType) {
         case 'declined':
           console.log('Declined');
+          this.router.navigate(['']);
           break;
         case 'join_accepted':
           this.joinAccepted(data.data);

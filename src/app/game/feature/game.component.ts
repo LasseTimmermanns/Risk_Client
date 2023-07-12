@@ -5,6 +5,7 @@ import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
 import { CookieService } from 'src/app/shared/utils/cookie/cookie.service';
 import { WebSocketHelper } from 'src/app/shared/utils/web_socket/web-socket';
+import { Game } from '../data_access/game';
 import { MapService } from '../utils/map.service';
 
 @Component({
@@ -16,14 +17,13 @@ export class GameComponent implements OnInit {
   map?: Map;
   messages: string[] = [];
   queryIdentification!: QueryIdentification;
+  game?: Game;
 
   constructor(
     private cookieService: CookieService,
     private mapService: MapService,
     private router: Router
-  ) {
-    this.retrieveMap();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.connect();
@@ -57,9 +57,10 @@ export class GameComponent implements OnInit {
     this.queryIdentification = new QueryIdentification(roomId, token, socket);
   }
 
-  retrieveMap() {
-    this.mapService.getMap('classic').subscribe((curmap) => {
+  retrieveMap(mapId: string) {
+    this.mapService.getMap(mapId).subscribe((curmap) => {
       this.map = curmap;
+      console.log(curmap);
     });
   }
 
@@ -70,6 +71,10 @@ export class GameComponent implements OnInit {
       console.log(data);
 
       switch (eventType) {
+        case 'success':
+          this.game = data.data;
+          this.retrieveMap(this.game!.mapId);
+          break;
         case 'declined':
           console.log('Declined');
       }

@@ -1,20 +1,20 @@
 import { MapTerritory } from './territory';
 
 export class Map {
-  width: number;
-  height: number;
+  svgWidth: number;
+  svgHeight: number;
   territories: MapTerritory[];
-  name: string;
+  id: string;
 
   constructor(
-    width: number,
-    height: number,
+    svgWidth: number,
+    svgHeight: number,
     territories: MapTerritory[],
-    name: string
+    id: string
   ) {
-    this.width = width;
-    this.height = height;
+    this.svgWidth = svgWidth;
+    this.svgHeight = svgHeight;
     this.territories = territories;
-    this.name = name;
+    this.id = id;
   }
 }

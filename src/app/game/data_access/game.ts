@@ -1,10 +1,10 @@
-import { Player } from './player';
 import { SettingsState } from '../../shared/data_access/settings';
+import { Player } from './player';
 import { GameTerritory } from './territory';
 
 export class Game {
-  id: String;
-  mapId: String;
+  id: string;
+  mapId: string;
   players: Player[];
   territories: GameTerritory[];
   move: number;

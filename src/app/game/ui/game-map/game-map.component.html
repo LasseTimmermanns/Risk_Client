@@ -1,0 +1,17 @@
+<div id="wrapper">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" [attr.viewBox]="'0 0 ' + map?.svgWidth + ' ' + map?.svgHeight" #svg>
+        <defs>   
+            <path *ngFor="let territory of map?.territories" [attr.id]="territory.id" [attr.d]="territory.path"/>
+        </defs>
+        
+        <g [attr.transform]="'scale('+ zoomFactor + ')' + 'translate(' + tx + ' ' + ty + ')'">
+            <g *ngFor="let territory of map?.territories">
+                <path [attr.d]="territory.path" [attr.fill]="getColor(territory.id)?.hex"/>
+                <g>
+                    <circle fill="white" [attr.cx]="territory.centerX" [attr.cy]="territory.centerY" r="25"/>
+                    <text text-anchor="middle" [attr.id]="'lbl_' + territory.id" [attr.x]="territory.centerX" [attr.y]="territory.centerY" fill="black" width="10" height="10" dominant-baseline="middle">{{getGameTerritory(territory.id)?.troops}}</text>
+                </g>
+            </g>
+        </g>
+    </svg>
+</div>
