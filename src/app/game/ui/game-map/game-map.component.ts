@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import Panzoom from '@panzoom/panzoom';
-import * as svgPanZoom from 'svg-pan-zoom';
 import { Continent } from '../../data_access/continent';
 import { Map } from '../../data_access/map';
 import { Pattern } from '../../data_access/pattern';
@@ -8,7 +7,6 @@ import { Player } from '../../data_access/player';
 import { GameTerritory, MapTerritory } from '../../data_access/territory';
 import { BackgroundService } from '../../utils/background.service';
 import { GameMapHelper } from '../../utils/game-map-helper';
-import { PanningHelper } from '../../utils/panning-helper';
 
 @Component({
   selector: 'app-game-map',
@@ -52,50 +50,10 @@ export class GameMapComponent implements OnInit {
     return str.replaceAll('_', ' ');
   }
 
-  initializePanZoom() {
-    const panZoomMap = svgPanZoom(this.svgElement.nativeElement, {
-      panEnabled: true,
-      zoomEnabled: false,
-      dblClickZoomEnabled: false,
-      mouseWheelZoomEnabled: false,
-      preventMouseEventsDefault: false,
-      zoomScaleSensitivity: 1,
-      minZoom: 0.9,
-      maxZoom: 6,
-      fit: true,
-      center: true,
-      refreshRate: 'auto',
-    });
-
-    panZoomMap.setBeforePan((oldPan: any, newPan: any) => {
-      return PanningHelper.restrictPan(
-        panZoomMap,
-        newPan,
-        this.minWatchableArea
-      );
-    });
-
-    panZoomMap.setOnZoom((scale: number) => {
-      this.drawTerritoryNames = scale >= this.drawTerritoryNamesAtScale;
-    });
-
-    this.panZoomMap = panZoomMap;
-  }
-
   initializePanZoom2() {
     const panZoomMap = Panzoom(this.svgElement.nativeElement);
     this.panZoomMap = panZoomMap;
   }
-
-  // @HostListener('window:resize', [])
-  // onResize() {
-  //   const restricted = PanningHelper.restrictPan(
-  //     this.panZoomMap,
-  //     this.panZoomMap.getPan(),
-  //     this.minWatchableArea
-  //   );
-  //   this.panZoomMap.pan(restricted);
-  // }
 
   getOwner(territoryId: number): Player | undefined {
     // console.log('Called GetOwner');
