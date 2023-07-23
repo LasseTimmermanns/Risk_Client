@@ -1,2 +1,5 @@
 <app-background/>
-<app-game-map [map]="map" [gameTerritories]="game?.territories" [players]="game?.players" id="map"/>
+<app-game-map  [map]="map" [gameTerritories]="game?.territories" [players]="game?.players" [thisPlayersTurn]="thisPlayersTurn" id="map" *ngIf="map"/>
+<app-player-display [displayPlayers]="displayPlayers" [playerOnTurn]="playerOnTurn"/>
+
+<!-- <div id="selection" #selection></div> -->

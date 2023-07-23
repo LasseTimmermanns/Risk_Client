@@ -1,23 +1,21 @@
 import { Color } from '../../shared/data_access/color';
+import { Shape } from './shape';
 
-export class Player {
+export interface Player {
   id: string;
   name: string;
   color: Color;
   seat: number;
   cards: number[];
+  shape: Shape;
+}
 
-  constructor(
-    id: string,
-    name: string,
-    color: Color,
-    seat: number,
-    cards: number[]
-  ) {
-    this.id = id;
-    this.name = name;
-    this.color = color;
-    this.seat = seat;
-    this.cards = cards;
-  }
+export interface DisplayPlayer {
+  id: string;
+  name: string;
+  color: Color;
+  seat: number;
+  cards: number;
+  territoryCount: number;
+  troopCount: number;
 }

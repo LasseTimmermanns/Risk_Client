@@ -1,9 +1,4 @@
-export class Pattern {
+export interface Pattern {
   name: string;
   pattern: string;
-
-  constructor(name: string, pattern: string) {
-    this.name = name;
-    this.pattern = pattern;
-  }
 }

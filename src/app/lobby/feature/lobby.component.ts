@@ -88,8 +88,7 @@ export class LobbyComponent {
       console.log(data);
 
       switch (eventType) {
-        case 'declined':
-          console.log('Declined');
+        case 'forbidden':
           this.router.navigate(['']);
           break;
         case 'join_accepted':

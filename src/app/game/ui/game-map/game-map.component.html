@@ -1,17 +1,84 @@
 <div id="wrapper">
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" [attr.viewBox]="'0 0 ' + map?.svgWidth + ' ' + map?.svgHeight" #svg>
-        <defs>   
-            <path *ngFor="let territory of map?.territories" [attr.id]="territory.id" [attr.d]="territory.path"/>
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" [attr.viewBox]="'0 0 ' + map.svgWidth + ' ' + map.svgHeight" #svgElement id="svgElement" >
+        <defs>
+            <filter [attr.id]="'continent-outline-' + continent.name" *ngFor="let continent of map?.continents">
+                <feMorphology in="SourceAlpha" result="expanded" operator="dilate" radius="10"/>
+                <feFlood [attr.flood-color]="continent.hex" result="rd" />
+                <feComposite in="rd" in2="expanded" operator="in" />
+                <feComposite in="SourceGraphic"/>
+            </filter>
+            <filter id="continent-outline-black">
+                <feMorphology in="SourceAlpha" result="expanded" operator="dilate" radius="10"/>
+                <feFlood flood-color="#0C1618" result="rd" />
+                <feComposite in="rd" in2="expanded" operator="in" />
+                <feComposite in="SourceGraphic"/>
+            </filter> 
+            <filter id="mat">
+                <feComponentTransfer>
+                    <feFuncR type="linear" slope="0.5"/>
+                    <feFuncG type="linear" slope="0.5"/>
+                    <feFuncB type="linear" slope="0.5"/>
+                </feComponentTransfer>
+            </filter>
+          <filter [attr.id]="'territory-stroke-' + player.color.name" x='-50%' y='-50%' width='200%' height='200%' *ngFor="let player of players">
+                <feFlood [attr.flood-color]="player.color.hex" result="inside-color"/>
+                <feComposite in2="SourceAlpha" operator="in" result="inside-stroke"/>
+                <feMorphology in="SourceAlpha" operator="erode" radius="5"/>
+                <feComposite in="SourceGraphic" operator="in" result="fill-area"/>
+                <feComponentTransfer in="inside-stroke" result="MATT">
+                    <feFuncR type="linear" slope="0.5"/>
+                    <feFuncG type="linear" slope="0.5"/>
+                    <feFuncB type="linear" slope="0.5"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="MATT"/>
+                    <feMergeNode in="fill-area"/>
+                </feMerge>
+            </filter>
+
+            <filter id="shape-filter" filterUnits="userSpaceOnUse" x="0" y="0" width="701" height="671" >
+                <feComponentTransfer in="SourceGraphic">
+                    <feFuncR type="linear" slope="0.5"/>
+                    <feFuncG type="linear" slope="0.5"/>
+                    <feFuncB type="linear" slope="0.5"/>
+                </feComponentTransfer>
+                <feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.8"/>
+            </filter>
+            <filter id="text-filter" x="0" y="0" width="70" height="67">
+                <feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.8"/>
+            </filter> 
         </defs>
-        
-        <g [attr.transform]="'scale('+ zoomFactor + ')' + 'translate(' + tx + ' ' + ty + ')'">
-            <g *ngFor="let territory of map?.territories">
-                <path [attr.d]="territory.path" [attr.fill]="getColor(territory.id)?.hex"/>
-                <g>
-                    <circle fill="white" [attr.cx]="territory.centerX" [attr.cy]="territory.centerY" r="25"/>
-                    <text text-anchor="middle" [attr.id]="'lbl_' + territory.id" [attr.x]="territory.centerX" [attr.y]="territory.centerY" fill="black" width="10" height="10" dominant-baseline="middle">{{getGameTerritory(territory.id)?.troops}}</text>
+
+        <g *ngIf="!showContinents">
+            <g *ngFor="let continent of map?.continents" filter="url(#continent-outline-black)">
+                <g *ngFor="let territoryid of continent.territories">
+                    <path [attr.d]="ngvar.territory?.path" [attr.id]="territoryid" [attr.fill]="ngvar.owner?.color?.hex" [attr.filter]="'url(#territory-stroke-' + ngvar.owner?.color?.name + ')'" 
+                    *ngVar="{territory: getMapTerritory(territoryid), owner: getOwner(territoryid)} as ngvar"/>
+                </g>
+            </g>
+            <g *ngFor="let territory of map?.territories" [attr.transform]="'translate(' + territory.centerX + ',' + territory.centerY + ')'">
+                <path [attr.d]="ngvar.owner?.shape?.path" [attr.fill]="ngvar.owner?.color?.hex" transform="translate(-32, -32)" filter="url(#shape-filter)" *ngVar="{owner: getOwner(territory.id)} as ngvar"/>
+                <text class="troop-display" filter="url(#text-filter)">{{getGameTerritory(territory.id)?.troops}}</text>
+                <text class="territory-name-display" transform="translate(0, 38)" *ngIf="drawTerritoryNames">{{remove_underscores(territory.name)}}</text>
+            </g>
+        </g>
+    
+        <g *ngIf="showContinents">
+            <g *ngFor="let continent of map?.continents" [attr.filter]="'url(#continent-outline-' + continent.name + ')'">
+                <g *ngFor="let territoryid of continent.territories">
+                    <g *ngVar="{territory: getMapTerritory(territoryid)} as ngvar">
+                        <path [attr.fill]="continent.hex" [attr.d]="ngvar.territory?.path" filter="url(#mat)"/>
+                        <path [attr.stroke]="continent.hex" stroke-width="5" [attr.d]="ngvar.territory?.path" fill="none"/>
+                        <text class="continent-name" [attr.x]="continent.centerX" [attr.y]="continent.centerY - 15"> 
+                            {{remove_underscores(continent.name)}}
+                        </text>
+                        <text class="svg-text subtitle" [attr.x]="continent.centerX" [attr.y]="continent.centerY + 15" > 
+                            {{continent.bonus}}
+                        </text>
+                    </g>
                 </g>
             </g>
         </g>
     </svg>
+    <div id="reset-view" (click)="showContinents = !showContinents">Switch</div>
 </div>

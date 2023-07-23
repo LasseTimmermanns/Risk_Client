@@ -1,49 +1,106 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { Color } from 'src/app/shared/data_access/color';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import Panzoom from '@panzoom/panzoom';
+import * as svgPanZoom from 'svg-pan-zoom';
+import { Continent } from '../../data_access/continent';
 import { Map } from '../../data_access/map';
+import { Pattern } from '../../data_access/pattern';
 import { Player } from '../../data_access/player';
-import { GameTerritory } from '../../data_access/territory';
+import { GameTerritory, MapTerritory } from '../../data_access/territory';
+import { BackgroundService } from '../../utils/background.service';
 import { GameMapHelper } from '../../utils/game-map-helper';
+import { PanningHelper } from '../../utils/panning-helper';
 
 @Component({
   selector: 'app-game-map',
   templateUrl: './game-map.component.html',
   styleUrls: ['./game-map.component.scss'],
 })
-export class GameMapComponent {
-  @Input('map') map?: Map;
+export class GameMapComponent implements OnInit {
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.initializePanZoom2();
+    }, 100);
+  }
+
+  showContinents: boolean = false;
+  drawTerritoryNames: boolean = false;
+
+  drawTerritoryNamesAtScale: number = 1.5;
+
+  @Input('thisPlayersTurn') thisPlayersTurn?: boolean;
+  @Input('map') map!: Map;
   @Input('gameTerritories') gameTerritories?: GameTerritory[];
   @Input('players') players?: Player[];
+  @ViewChild('svgElement', { static: true }) svgElement: any;
 
-  @ViewChild('svg', { static: true }) svgElement: any;
-  panZoomConfig: PanZoomConfig = new PanZoomConfig();
+  panZoomMap: any;
+  minWatchableArea = 0.8;
 
-  ngAfterViewInit() {
-    const panZoom: PanZoomAPI = this.svgElement.panZoom;
+  pattern?: Pattern;
 
-    // Set up zooming functionality
-    this.panZoomConfig.zoomLevels = 10; // Number of zoom levels
-    this.panZoomConfig.initialZoomLevel = 0; // Initial zoom level (0-10)
-    this.panZoomConfig.zoomStep = 0.1; // Zoom step when using mouse wheel
+  constructor(private backgroundService: BackgroundService) {
+    this.getDefault();
+  }
 
-    // Set up panning functionality
-    this.panZoomConfig.enablePan = true;
-    this.panZoomConfig.panOnClickDrag = true;
-
-    // Subscribe to zoom level changes
-    panZoom.modelChanged$.subscribe((model: PanZoomModel) => {
-      // Access the zoom level using model.zoomLevel
-      console.log('Zoom level:', model.zoomLevel);
+  getDefault() {
+    this.backgroundService.getById('japanese').subscribe((e) => {
+      this.pattern = e;
     });
   }
 
-  getColor(territoryId: number): Color | undefined {
-    if (!this.players || !this.gameTerritories) {
-      console.error('Players or GameTerritories not instantiated');
-      return;
-    }
+  remove_underscores(str: string) {
+    return str.replaceAll('_', ' ');
+  }
 
-    return GameMapHelper.getColor(
+  initializePanZoom() {
+    const panZoomMap = svgPanZoom(this.svgElement.nativeElement, {
+      panEnabled: true,
+      zoomEnabled: false,
+      dblClickZoomEnabled: false,
+      mouseWheelZoomEnabled: false,
+      preventMouseEventsDefault: false,
+      zoomScaleSensitivity: 1,
+      minZoom: 0.9,
+      maxZoom: 6,
+      fit: true,
+      center: true,
+      refreshRate: 'auto',
+    });
+
+    panZoomMap.setBeforePan((oldPan: any, newPan: any) => {
+      return PanningHelper.restrictPan(
+        panZoomMap,
+        newPan,
+        this.minWatchableArea
+      );
+    });
+
+    panZoomMap.setOnZoom((scale: number) => {
+      this.drawTerritoryNames = scale >= this.drawTerritoryNamesAtScale;
+    });
+
+    this.panZoomMap = panZoomMap;
+  }
+
+  initializePanZoom2() {
+    const panZoomMap = Panzoom(this.svgElement.nativeElement);
+    this.panZoomMap = panZoomMap;
+  }
+
+  // @HostListener('window:resize', [])
+  // onResize() {
+  //   const restricted = PanningHelper.restrictPan(
+  //     this.panZoomMap,
+  //     this.panZoomMap.getPan(),
+  //     this.minWatchableArea
+  //   );
+  //   this.panZoomMap.pan(restricted);
+  // }
+
+  getOwner(territoryId: number): Player | undefined {
+    // console.log('Called GetOwner');
+    if (!this.players || !this.gameTerritories) return;
+    return GameMapHelper.getOwner(
       territoryId,
       this.players,
       this.gameTerritories
@@ -51,11 +108,23 @@ export class GameMapComponent {
   }
 
   getGameTerritory(territoryId: number): GameTerritory | undefined {
-    if (!this.players || !this.gameTerritories) {
-      console.error('Players or GameTerritories not instantiated');
-      return;
-    }
-
+    // console.log('Called GetGameTerritory');
+    if (!this.players || !this.gameTerritories) return;
     return GameMapHelper.getGameTerritory(territoryId, this.gameTerritories);
+  }
+
+  getMapTerritory(territoryId: number): MapTerritory | undefined {
+    // console.log('Called GetMapTerritory');
+    return this.map.territories.find((t) => t.id === territoryId);
+  }
+
+  getContinentPath(continent: Continent) {
+    var str = '';
+
+    continent.territories.forEach((t) => {
+      const territory = this.map.territories.find((value) => value.id === t);
+      str += territory?.path;
+    });
+    return str;
   }
 }

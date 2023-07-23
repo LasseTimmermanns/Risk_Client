@@ -1,20 +1,10 @@
+import { Continent } from './continent';
 import { MapTerritory } from './territory';
 
-export class Map {
+export interface Map {
   svgWidth: number;
   svgHeight: number;
   territories: MapTerritory[];
+  continents: Continent[];
   id: string;
-
-  constructor(
-    svgWidth: number,
-    svgHeight: number,
-    territories: MapTerritory[],
-    id: string
-  ) {
-    this.svgWidth = svgWidth;
-    this.svgHeight = svgHeight;
-    this.territories = territories;
-    this.id = id;
-  }
 }

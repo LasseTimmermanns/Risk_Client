@@ -2,7 +2,7 @@ import { Player } from '../data_access/player';
 import { GameTerritory } from '../data_access/territory';
 
 export class GameMapHelper {
-  static getColor(
+  static getOwner(
     territoryId: number,
     players: Player[],
     territories: GameTerritory[]
@@ -17,7 +17,7 @@ export class GameMapHelper {
       return;
     }
 
-    return owner.color;
+    return owner;
   }
 
   static getGameTerritory(territoryId: number, territories: GameTerritory[]) {

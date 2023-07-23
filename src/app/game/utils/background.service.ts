@@ -8,23 +8,11 @@ import { Pattern } from '../data_access/pattern';
   providedIn: 'root',
 })
 export class BackgroundService {
-  bg: number = 0;
-  count: number = -1;
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) {
-    httpClient
-      .get<number>(`${globals.springHttpServer}/patterns/count`)
-      .subscribe({
-        next: (v) => (this.count = v),
-      });
-  }
-
-  getNext(): Observable<Pattern> {
-    const response = this.httpClient.get<Pattern>(
-      `${globals.springHttpServer}/patterns/${this.bg}`
+  getById(id: string): Observable<Pattern> {
+    return this.httpClient.get<Pattern>(
+      `${globals.springHttpServer}/patterns/${id}`
     );
-    this.bg++;
-    this.bg %= this.count;
-    return response;
   }
 }

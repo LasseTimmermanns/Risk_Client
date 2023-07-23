@@ -1,17 +1,1 @@
-<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg' *ngIf="pattern">
-<defs>
-    <linearGradient id="primary">
-        <stop stop-color="#222222"/>
-    </linearGradient>
-    <linearGradient id="secondary">
-        <stop stop-color="#343434"/>
-    </linearGradient>
-    <linearGradient id="tertiary">
-        <stop stop-color="#FFF"/>
-    </linearGradient>
-    <g [innerHTML]="getPatternString() | safeHtml"></g>
-</defs>
-
-<rect width='800%' height='800%' transform='translate(0,0)' fill='url(#pattern)' (click)="switch()"/>
-
-</svg>
+<div class="full-screen" [ngStyle]="{'background-image': pattern.pattern}" *ngIf="pattern"></div>

@@ -8,15 +8,57 @@
   overflow: visible;
 }
 
-path {
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: rgba(0, 0, 0, 0.5);
-}
-
 svg {
   width: 100%;
   height: 100%;
 
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+}
+
+#reset-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 5;
+  background-color: aqua;
+  bottom: 32px;
+  left: 32px;
+  padding: 16px;
+  width: 32px;
+  height: 32px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Passion+One&display=swap");
+.troop-display {
+  dominant-baseline: middle;
+  text-anchor: middle;
+  text-transform: capitalize;
+  font-family: "Passion One", cursive;
+  letter-spacing: -2px;
+  fill: white;
+  line-height: 1.3;
+  font-size: 26px;
+}
+
+.continent-name {
+  dominant-baseline: middle;
+  text-anchor: middle;
+  text-transform: capitalize;
+  font-family: "Quattrocento Sans", sans-serif;
+  font-weight: bold;
+  letter-spacing: -2px;
+  line-height: 1.3;
+  fill: white;
+  font-size: 32pt;
+}
+
+.territory-name-display {
+  dominant-baseline: middle;
+  text-anchor: middle;
+  text-transform: capitalize;
+  font-family: "Quattrocento Sans", sans-serif;
+  font-weight: bold;
+  fill: white;
+  font-size: 8pt;
 }

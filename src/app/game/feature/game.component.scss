@@ -1,3 +1,10 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
 #map {
   width: 100%;
   height: 100%;
@@ -8,6 +15,21 @@ app-background {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  // z-index: 0;
   display: block;
+}
+
+#selection {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+app-player-display {
+  position: absolute;
+  right: 0;
+  width: 15%;
+  min-width: 300px;
 }
