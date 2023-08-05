@@ -1,0 +1,6 @@
+<div id="phase-display" class="not-selectable" [ngClass]="phaseToString[phase]" (click)="nextPhase()">
+    {{phaseToString[phase]}}
+    <div id="next-phase">
+        <img src="../../../../assets/arrow_forwards.svg" id="arrow-forwards">
+    </div>
+</div>

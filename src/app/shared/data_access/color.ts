@@ -1,13 +1,9 @@
-export class Color {
-  public hex: string;
-  public name: string;
-  public textColor: string;
-
-  constructor(hex: string, name: string, text_color: string) {
-    this.hex = hex;
-    this.name = name;
-    this.textColor = text_color;
-  }
+export interface Color {
+  hex: string;
+  secondaryHex: string;
+  highlightHex: string;
+  id: string;
+  textColor: string;
 }
 
 export class ColorChange {

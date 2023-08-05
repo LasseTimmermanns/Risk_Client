@@ -25,6 +25,7 @@ app-background {
   position: absolute;
   left: 0;
   top: 0;
+  pointer-events: none;
 }
 
 app-player-display {
@@ -32,4 +33,13 @@ app-player-display {
   right: 0;
   width: 15%;
   min-width: 300px;
+  z-index: 5;
+}
+
+app-error-message {
+  position: absolute;
+  top: 50px;
+  left: calc(50% - 250px);
+  width: 500px;
+  z-index: 10;
 }

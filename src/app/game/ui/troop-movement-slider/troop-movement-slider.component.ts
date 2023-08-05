@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   SimpleChanges,
@@ -12,11 +13,12 @@ import {
   styleUrls: ['./troop-movement-slider.component.scss'],
 })
 export class TroopMovementSliderComponent {
-  @Input('min') min: number = 0;
-  @Input('max') max: number = 10;
-  @Input('index') currentIndex: number = this.min;
+  @Input('min') min?: number;
+  @Input('max') max?: number;
+  currentIndex: number = 0;
 
-  @Output() indexChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() valueChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onAbort: EventEmitter<boolean> = new EventEmitter<boolean>();
   deltay: number = 0;
 
   sensitivity: number = 100;
@@ -28,12 +30,15 @@ export class TroopMovementSliderComponent {
 
   drag_sensitivity: number = 100;
 
-  @Output('value') out?: number;
+  @Output() onSubmit: EventEmitter<number> = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (!(this.min && this.max)) return;
     this.carousel = Array.from(Array(this.max - this.min + 1).keys()).map(
-      (i) => i + this.min
+      (i) => i + this.min!
     );
+
+    this.change(0);
   }
 
   onWheel(event: any) {
@@ -56,11 +61,21 @@ export class TroopMovementSliderComponent {
     this.currentIndex += this.carousel.length;
     this.currentIndex %= this.carousel.length;
 
-    this.indexChange.emit(this.carousel[this.currentIndex]);
+    this.valueChange.emit(this.carousel[this.currentIndex]);
   }
 
   submit() {
-    this.out = this.carousel[this.currentIndex];
+    this.onSubmit.emit(this.carousel[this.currentIndex]);
+  }
+
+  abort() {
+    this.onAbort.emit(true);
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(
+    event: KeyboardEvent
+  ) {
+    this.abort();
   }
 
   beginDrag() {

@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: auto;
+  border-radius: 35px;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(60, 60, 60, 0.95);
+  overflow: hidden;
+}
+
+.heading {
+  padding: 5px;
+  background-color: rgba(40, 40, 40, 1);
+  color: white;
+  text-align: center;
+  margin: 0;
+}
+
+.message {
+  padding: 15px 30px;
+  color: white;
+  text-align: center;
+}

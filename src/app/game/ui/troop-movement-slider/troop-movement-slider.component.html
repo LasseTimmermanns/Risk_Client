@@ -1,15 +1,21 @@
-<div class="wrapper" (wheel)="onWheel($event)" (mousedown)="beginDrag()" (mousemove)="drag($event)" (mouseup)="stopDrag('up')" (mouseleave)="stopDrag('leave')">
-    <div class="carousel" >
+<div class="wrapper not-selectable" (wheel)="onWheel($event)" (mousedown)="beginDrag()" (mousemove)="drag($event)" (mouseup)="stopDrag('up')" (mouseleave)="stopDrag('leave')">
+    <div class="carousel" *ngIf="true">
         <p class="far-left carousel-element" (click)="change(-1)">{{carousel[(currentIndex + carousel.length - 2) % carousel.length]}}</p>
         <p class="left carousel-element" (click)="change(-1)">{{carousel[(currentIndex + carousel.length - 1) % carousel.length]}}</p>
         <p class="center carousel-element">{{carousel[currentIndex ]}}</p>
         <p class="right carousel-element" (click)="change(1)">{{carousel[(currentIndex + 1) % carousel.length]}}</p>
         <p class="far-right carousel-element" (click)="change(1)">{{carousel[(currentIndex + 2) % carousel.length]}}</p>
     </div>
-    <div class="submit" (click)="submit()">
+    <div class="action submit" (click)="submit()">
         <svg width="64" height="55" viewBox="0 0 64 55" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 32.5L17.5 47L60.5 4" stroke="white" stroke-width="10"/>
         </svg>            
+    </div>
+    <div class="action abort" (click)="abort()">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 60L60 4" stroke="white" stroke-width="10"/>
+            <path d="M4 4L60 60" stroke="white" stroke-width="10"/>
+        </svg>
     </div>
   </div>
   

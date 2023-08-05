@@ -8,6 +8,7 @@ export interface Player {
   seat: number;
   cards: number[];
   shape: Shape;
+  deploymentLeft: number;
 }
 
 export interface DisplayPlayer {

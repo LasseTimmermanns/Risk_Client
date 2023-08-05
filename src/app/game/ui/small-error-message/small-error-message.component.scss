@@ -1,0 +1,22 @@
+:host {
+  position: absolute;
+  z-index: 10;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+.message {
+  display: inline;
+  white-space: nowrap;
+  color: rgb(138, 37, 0);
+  font-weight: bold;
+  font-family: "Quattrocento", sans-serif;
+  text-align: left;
+  letter-spacing: -0.5px;
+  filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+}

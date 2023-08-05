@@ -10,6 +10,7 @@ import { ExploreComponent } from './explore/feature/explore.component';
 import { GameComponent } from './game/feature/game.component';
 import { BackgroundComponent } from './game/ui/background/background.component';
 import { GameMapComponent } from './game/ui/game-map/game-map.component';
+import { LargeErrorMessageComponent } from './game/ui/large-error-message/large-error-message.component';
 import { PlayerDisplayComponent } from './game/ui/player-display/player-display/player-display.component';
 import { TroopMovementSliderComponent } from './game/ui/troop-movement-slider/troop-movement-slider.component';
 import { SafeHtmlPipe } from './game/utils/safe-html.pipe';
@@ -23,6 +24,8 @@ import { SliderComponent } from './lobby/ui/slider/slider.component';
 import { SwitchSettingsViewComponent } from './lobby/ui/switch-settings-view/switch-settings-view.component';
 import { SwitchComponent } from './lobby/ui/switch/switch.component';
 import { NgVar } from './shared/utils/ngVar/ng-var.directive';
+import { TurnPhaseComponent } from './game/ui/turn-phase/turn-phase.component';
+import { CanvasMapComponent } from './game/ui/canvas-map/canvas-map.component';
 
 const allRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +55,9 @@ const allRoutes: Routes = [
     NgVar,
     PlayerDisplayComponent,
     TroopMovementSliderComponent,
+    LargeErrorMessageComponent,
+    TurnPhaseComponent,
+    CanvasMapComponent,
   ],
   imports: [
     RouterModule.forRoot(allRoutes),

@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { DisplayPlayer } from 'src/app/game/data_access/player';
+import { Component } from '@angular/core';
+import { GameService } from 'src/app/game/utils/game.service';
+import { PlayerDisplayService } from 'src/app/game/utils/player-display.service';
 
 @Component({
   selector: 'app-player-display',
@@ -7,6 +8,8 @@ import { DisplayPlayer } from 'src/app/game/data_access/player';
   styleUrls: ['./player-display.component.scss'],
 })
 export class PlayerDisplayComponent {
-  @Input('displayPlayers') displayPlayers?: DisplayPlayer[];
-  @Input('playerOnTurn') playerOnTurn?: string;
+  constructor(
+    public playerDisplayService: PlayerDisplayService,
+    public gameService: GameService
+  ) {}
 }

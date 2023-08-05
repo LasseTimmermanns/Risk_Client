@@ -1,12 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import Panzoom from '@panzoom/panzoom';
-import { Continent } from '../../data_access/continent';
-import { Map } from '../../data_access/map';
+import { Color } from 'src/app/shared/data_access/color';
 import { Pattern } from '../../data_access/pattern';
 import { Player } from '../../data_access/player';
-import { GameTerritory, MapTerritory } from '../../data_access/territory';
+import { MapTerritory } from '../../data_access/territory';
 import { BackgroundService } from '../../utils/background.service';
-import { GameMapHelper } from '../../utils/game-map-helper';
+import { GameMapService } from '../../utils/game-map.service';
+import { GameService } from '../../utils/game.service';
 
 @Component({
   selector: 'app-game-map',
@@ -14,30 +21,41 @@ import { GameMapHelper } from '../../utils/game-map-helper';
   styleUrls: ['./game-map.component.scss'],
 })
 export class GameMapComponent implements OnInit {
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.initializePanZoom2();
-    }, 100);
-  }
-
   showContinents: boolean = false;
   drawTerritoryNames: boolean = false;
 
   drawTerritoryNamesAtScale: number = 1.5;
 
-  @Input('thisPlayersTurn') thisPlayersTurn?: boolean;
-  @Input('map') map!: Map;
-  @Input('gameTerritories') gameTerritories?: GameTerritory[];
-  @Input('players') players?: Player[];
   @ViewChild('svgElement', { static: true }) svgElement: any;
+
+  @Input() selectedPrimaryId?: number;
+  @Input() selectedSecondaryId?: number;
+  @Input() possiblePrimarySelectionIds: number[] = [];
+  @Input() possibleAttacks: number[] = [];
+  @Input() attacker?: Player;
+
+  @Output() selectTerritory = new EventEmitter<number[]>();
 
   panZoomMap: any;
   minWatchableArea = 0.8;
 
+  flagwidth = 82;
+  flagheight = 160;
+
   pattern?: Pattern;
 
-  constructor(private backgroundService: BackgroundService) {
+  constructor(
+    private backgroundService: BackgroundService,
+    public gameService: GameService,
+    public gameMapService: GameMapService
+  ) {
     this.getDefault();
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.initializePanZoom2();
+    }, 100);
   }
 
   getDefault() {
@@ -46,43 +64,79 @@ export class GameMapComponent implements OnInit {
     });
   }
 
-  remove_underscores(str: string) {
-    return str.replaceAll('_', ' ');
-  }
-
   initializePanZoom2() {
     const panZoomMap = Panzoom(this.svgElement.nativeElement);
     this.panZoomMap = panZoomMap;
   }
 
-  getOwner(territoryId: number): Player | undefined {
-    // console.log('Called GetOwner');
-    if (!this.players || !this.gameTerritories) return;
-    return GameMapHelper.getOwner(
-      territoryId,
-      this.players,
-      this.gameTerritories
-    );
+  clickedTerritory(territoryId: number, event: any) {
+    if (
+      !(
+        this.possiblePrimarySelectionIds.includes(territoryId) ||
+        this.possibleAttacks.includes(territoryId)
+      )
+    )
+      return;
+    this.selectTerritory.emit([territoryId, event.pageX, event.pageY]);
   }
 
-  getGameTerritory(territoryId: number): GameTerritory | undefined {
-    // console.log('Called GetGameTerritory');
-    if (!this.players || !this.gameTerritories) return;
-    return GameMapHelper.getGameTerritory(territoryId, this.gameTerritories);
+  highlight3d = 30;
+  getTerritoryStyle(territoryId: number, color: Color) {
+    const basicStyle = {
+      stroke: color.secondaryHex,
+      strokeWidth: '2px',
+      fill: color.hex,
+      filter: `url(#territory-stroke-${color.id})`,
+    };
+
+    if (territoryId === this.selectedPrimaryId) {
+      const styleObj = {
+        ...basicStyle,
+        filter: `url(#territory-stroke-${color.id}) drop-shadow(0px ${this.highlight3d}px ${color.secondaryHex})`,
+        transform: `translateY(-${this.highlight3d}px)`,
+        fill: color.highlightHex,
+      };
+      return styleObj;
+    } else if (this.possiblePrimarySelectionIds.includes(territoryId)) {
+      const styleObj = {
+        ...basicStyle,
+        strokeWidth: '15px',
+        stroke: color.highlightHex,
+      };
+      return styleObj;
+    } else if (this.possibleAttacks.includes(territoryId)) {
+      const styleObj = {
+        ...basicStyle,
+        filter: `url(#territory-stroke-${color.id}) drop-shadow(0px ${
+          this.highlight3d / 4
+        }px ${color.secondaryHex})`,
+        transform: `translateY(-${this.highlight3d / 4}px)`,
+      };
+      return styleObj;
+    }
+
+    return basicStyle;
   }
 
-  getMapTerritory(territoryId: number): MapTerritory | undefined {
-    // console.log('Called GetMapTerritory');
-    return this.map.territories.find((t) => t.id === territoryId);
+  getTroopDisplayStyle(territoryId: number) {
+    if (territoryId === this.selectedPrimaryId) {
+      const highlightStyle = {
+        transform: `translateY(-${this.highlight3d}px)`,
+      };
+      return highlightStyle;
+    } else if (this.possibleAttacks.includes(territoryId)) {
+      const highlightStyle = {
+        transform: `translateY(-${this.highlight3d / 4}px)`,
+      };
+      return highlightStyle;
+    }
+    return {};
   }
 
-  getContinentPath(continent: Continent) {
-    var str = '';
-
-    continent.territories.forEach((t) => {
-      const territory = this.map.territories.find((value) => value.id === t);
-      str += territory?.path;
-    });
-    return str;
+  getTroopDisplayTransform(mapTerritory: MapTerritory) {
+    const transformation = {
+      transform: `translate(${mapTerritory.centerX}px, ${mapTerritory.centerY}px)`,
+    };
+    return transformation;
   }
 }

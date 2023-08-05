@@ -1,17 +1,19 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Map } from 'src/app/game/data_access/map';
 import { globals } from 'src/app/globals';
 import { QueryIdentification } from 'src/app/shared/data_access/query-identification';
 import { CookieService } from 'src/app/shared/utils/cookie/cookie.service';
 import { WebSocketHelper } from 'src/app/shared/utils/web_socket/web-socket';
-import { Game } from '../data_access/game';
 import { Player } from '../data_access/player';
+import { SmallErrorMessageComponent } from '../ui/small-error-message/small-error-message.component';
 import { TroopMovementSliderComponent } from '../ui/troop-movement-slider/troop-movement-slider.component';
-import { MapService } from '../utils/map.service';
-import { DisplayPlayer } from './../data_access/player';
+import { AttackService } from '../utils/attack.service';
+import { GameMapService } from '../utils/game-map.service';
+import { GameService } from '../utils/game.service';
+import { PlayerDisplayService } from '../utils/player-display.service';
 import { GameTerritory } from './../data_access/territory';
-import { GameMapService } from './../utils/game-map.service';
+import { DeploymentService } from './../utils/deployment.service';
+import { GameManagementService } from './../utils/game-management.service';
 
 @Component({
   selector: 'app-game',
@@ -19,23 +21,27 @@ import { GameMapService } from './../utils/game-map.service';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  map?: Map;
   messages: string[] = [];
   queryIdentification!: QueryIdentification;
-  game?: Game;
-  displayPlayers: DisplayPlayer[] = [];
-  playerOnTurn?: string;
-  thisPlayersTurn: boolean = false;
-  playerId?: string;
 
   @ViewChild('selection', { read: ViewContainerRef, static: true })
   selectionDiv!: ViewContainerRef;
 
+  selectedPrimaryId?: number;
+  selectedSecondaryId?: number;
+  possiblePrimarySelectionIds: number[] = [];
+  possibleAttacks: number[] = [];
+  attacker?: Player;
+
   constructor(
     private cookieService: CookieService,
-    private mapService: MapService,
     private router: Router,
-    private gameMapService: GameMapService
+    public gameService: GameService,
+    private playerDisplayService: PlayerDisplayService,
+    private gameMapService: GameMapService,
+    private deploymentService: DeploymentService,
+    private gameManagementService: GameManagementService,
+    private attackService: AttackService
   ) {}
 
   ngOnInit(): void {
@@ -70,42 +76,6 @@ export class GameComponent implements OnInit {
     this.queryIdentification = new QueryIdentification(roomId, token, socket);
   }
 
-  retrieveMap(mapId: string) {
-    this.mapService.getMap(mapId).subscribe((curmap) => {
-      this.map = curmap;
-    });
-  }
-
-  createDisplayPlayers(players: Player[], territories: GameTerritory[]) {
-    var displayPlayers: DisplayPlayer[] = [];
-
-    players.forEach((player) => {
-      const displayPlayer: DisplayPlayer = {
-        id: player.id,
-        name: player.name,
-        color: player.color, // Assuming "blue" is a valid Color value
-        seat: player.seat,
-        cards: player.cards.length,
-        territoryCount: 0,
-        troopCount: 0,
-      };
-
-      displayPlayers.push(displayPlayer);
-    });
-
-    territories.forEach((territory) => {
-      const owner = displayPlayers.find(
-        (displayPlayer) => displayPlayer.id === territory.owner
-      );
-      if (owner) {
-        owner.territoryCount++;
-        owner.troopCount += territory.troops;
-      }
-    });
-
-    return displayPlayers;
-  }
-
   receiveMessages(socket: WebSocket) {
     socket.onmessage = (event) => {
       let data = JSON.parse(event.data);
@@ -114,18 +84,19 @@ export class GameComponent implements OnInit {
 
       switch (eventType) {
         case 'success':
-          this.game = data.data;
-          this.retrieveShapes();
-          this.retrieveMap(this.game!.mapId);
-          this.displayPlayers = this.createDisplayPlayers(
-            data.data.players,
-            data.data.territories
-          );
-          this.updatePlayerOnTurn();
+          this.gameService.game = data.data.game;
+          this.gameService.map = data.data.map;
+          this.gameService.playerId = data.data.playerId;
+          this.gameService.updateDisplayNames();
+          this.playerDisplayService.generateDisplayPlayers();
+          this.gameService.updatePlayerOnTurn();
+          this.gameMapService.generateDrawInformation();
+          this.startPhase(this.gameService.game!.phase);
+          console.log(this.gameService.playerId);
+          console.log(this.gameService.playerOnTurn?.id);
           break;
-        case 'playerId':
-          this.playerId = data.data.playerId;
-          this.updatePlayersTurn();
+        case 'gameaction':
+          this.receiveGameActions(data);
           break;
         case 'declined':
           console.log('Declined');
@@ -133,52 +104,224 @@ export class GameComponent implements OnInit {
     };
   }
 
-  retrieveShapes() {
-    this.gameMapService
-      .getShapes(this.game!.players.length)
-      .subscribe((shapes) => {
-        for (let i = 0; i < shapes.length; i++) {
-          this.game!.players[i].shape = shapes[i];
-        }
-      });
+  receiveGameActions(data: any) {
+    switch (data.action) {
+      case 'start':
+        console.log('Game started');
+        break;
+      case 'beginDeployment':
+        this.deploymentService.setTroopsLeft(
+          data.data.playerId,
+          data.data.amount
+        );
+        break;
+      case 'deploy':
+        this.deploymentService.deploymentReceived(
+          data.data.territoryId,
+          data.data.amount
+        );
+        break;
+      case 'nextPhase':
+        this.gameManagementService.onNextPhase();
+        this.startPhase(this.gameService.game!.phase);
+        break;
+      case 'nextTurn':
+        this.gameManagementService.onNextTurn();
+        this.startPhase(this.gameService.game!.phase);
+        break;
+    }
   }
 
-  updatePlayerOnTurn() {
-    if (!this.game) return;
-
-    const turn = this.game.turn;
-    const playerCount = this.game.players.length;
-
-    const currentSeat = turn % playerCount;
-
-    const currentPlayer = this.game.players.find(
-      (player) => player.seat === currentSeat
-    );
-
-    if (!currentPlayer) throw Error('CurrentPlayer not found');
-
-    this.playerOnTurn = currentPlayer.id;
-    this.updatePlayersTurn();
-  }
-
-  updatePlayersTurn() {
-    console.log('This Players Turn', this.playerOnTurn === this.playerId);
-    this.thisPlayersTurn = this.playerOnTurn === this.playerId;
-  }
-
-  retrieveTroopCount() {
+  retrieveTroopCount(min: number, max: number) {
     const slider = this.selectionDiv.createComponent(
       TroopMovementSliderComponent
     );
-    slider.setInput('min', 1);
-    slider.setInput('max', 10);
+    slider.setInput('min', min);
+    slider.setInput('max', max);
 
-    slider.instance.indexChange.subscribe((value: number) => {
-      console.log(value);
+    return slider;
+  }
+
+  selectTerritory(clickInformation: number[]) {
+    //clickInformation - 0: territoryId, 1: mouseX, 2: mouseY
+    switch (this.gameService.game!.phase) {
+      case 0:
+        this.deploymentSelect(clickInformation);
+        break;
+      case 1:
+        this.attackSelect(clickInformation);
+        break;
+    }
+  }
+
+  startPhase(phase: number) {
+    switch (phase) {
+      case 0:
+        this.beginDeployment();
+        break;
+      case 1:
+        this.beginAttack();
+        break;
+    }
+  }
+
+  beginDeployment() {
+    const ownedTerritories: GameTerritory[] | undefined =
+      this.gameService.game?.territories.filter(
+        (t) => t.owner === this.gameService.playerOnTurn?.id
+      );
+
+    if (!ownedTerritories) {
+      this.possiblePrimarySelectionIds = [];
+      return;
+    }
+
+    this.possiblePrimarySelectionIds = ownedTerritories.map((t) => t.id);
+  }
+
+  deploymentSelect(clickinformation: number[]) {
+    var troopsLeft = this.deploymentService.getTroopsLeft(
+      this.gameService.playerId!
+    );
+
+    if (troopsLeft < 1) {
+      this.displayError(
+        "You've deployed all your troops!",
+        clickinformation[1],
+        clickinformation[2]
+      );
+      return;
+    }
+
+    const territoryId = clickinformation[0];
+    this.selectedPrimaryId = territoryId;
+    const slider = this.retrieveTroopCount(1, troopsLeft);
+
+    var lastValue = 0;
+
+    slider.instance.valueChange.subscribe((value: number) => {
+      this.gameService.game!.territories.find(
+        (t) => t.id === this.selectedPrimaryId
+      )!.troops += value - lastValue;
+
+      lastValue = value;
+    });
+
+    slider.instance.onAbort.subscribe((value: boolean) => {
+      this.gameService.game!.territories.find(
+        (t) => t.id === territoryId
+      )!.troops += -lastValue;
+      this.selectedPrimaryId = undefined;
+      slider.destroy();
+    });
+
+    slider.instance.onSubmit.subscribe((value: number) => {
+      this.deploymentService.submitDeploy(
+        value,
+        territoryId,
+        this.queryIdentification
+      );
+      this.gameService.game!.territories.find(
+        (t) => t.id === this.selectedPrimaryId
+      )!.troops += -lastValue;
+      this.selectedPrimaryId = undefined;
+      slider.destroy();
     });
   }
 
-  ngAfterViewInit(): void {
-    // this.retrieveTroopCount();
+  beginAttack() {
+    const ownedTerritories: GameTerritory[] =
+      this.gameService.game!.territories.filter(
+        (t) => t.owner === this.gameService.playerOnTurn?.id
+      );
+
+    this.possiblePrimarySelectionIds = ownedTerritories.map((t) => t.id);
+  }
+
+  attackSelect(clickinformation: number[]) {
+    if (!this.gameService.thisPlayersTurn) {
+      console.log('Not Players turn');
+      return;
+    }
+
+    if (
+      !(
+        this.possiblePrimarySelectionIds.includes(clickinformation[0]) ||
+        this.possibleAttacks.includes(clickinformation[0])
+      )
+    )
+      return;
+
+    const gameTerritory = this.gameService.game?.territories.find(
+      (t) => t.id === clickinformation[0]
+    );
+
+    const mapTerritory = this.gameService.map?.territories.find(
+      (t) => t.id === clickinformation[0]
+    );
+
+    if (!gameTerritory || !mapTerritory) throw Error('Territory not Found');
+
+    if (gameTerritory.owner === this.gameService.playerId) {
+      this.selectedPrimaryId = clickinformation[0];
+      this.selectedSecondaryId = undefined;
+      this.attacker = this.gameService.game?.players.find(
+        (p) => p.id === this.gameService.playerId
+      );
+
+      this.possibleAttacks = this.attackService.getPossibleAttacks(
+        mapTerritory,
+        this.gameService.playerId
+      );
+
+      console.log('Attacker', this.attacker);
+
+      const ownedTerritories: GameTerritory[] | undefined =
+        this.gameService.game?.territories.filter(
+          (t) => t.owner === this.gameService.playerOnTurn?.id
+        );
+
+      this.possiblePrimarySelectionIds = ownedTerritories!.map((t) => t.id);
+      return;
+    } else {
+      console.log('Attack');
+      // Attack other
+      this.selectedSecondaryId = clickinformation[0];
+      console.log(
+        'Attacking',
+        this.selectedPrimaryId,
+        this.selectedSecondaryId
+      );
+    }
+  }
+
+  displayError(msg: string, x: number, y: number) {
+    const errorMessage = this.selectionDiv.createComponent(
+      SmallErrorMessageComponent
+    );
+
+    errorMessage.setInput('message', msg);
+    errorMessage.location.nativeElement.style.left = x + 'px';
+    errorMessage.location.nativeElement.style.top = y + 'px';
+
+    setTimeout(() => {
+      errorMessage.destroy();
+    }, 2000);
+  }
+
+  nextPhase() {
+    if (!this.gameService.thisPlayersTurn) return;
+
+    if (this.gameService.game!.phase === 0) {
+      if (this.deploymentService.getTroopsLeft(this.gameService.playerId!) > 0)
+        return;
+    }
+
+    this.possibleAttacks = [];
+    this.possiblePrimarySelectionIds = [];
+    this.selectedPrimaryId = undefined;
+    this.selectedSecondaryId = undefined;
+
+    this.gameManagementService.nextPhase(this.queryIdentification);
   }
 }

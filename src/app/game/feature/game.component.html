@@ -1,5 +1,11 @@
+<!-- <app-game-map  id="map" (selectTerritory)="selectTerritory($event)" 
+[possiblePrimarySelectionIds]="possiblePrimarySelectionIds" 
+[possibleAttacks]="possibleAttacks" 
+[attacker]="attacker"
+[selectedPrimaryId]="selectedPrimaryId" 
+[selectedSecondaryId]="selectedSecondaryId"/> -->
 <app-background/>
-<app-game-map  [map]="map" [gameTerritories]="game?.territories" [players]="game?.players" [thisPlayersTurn]="thisPlayersTurn" id="map" *ngIf="map"/>
-<app-player-display [displayPlayers]="displayPlayers" [playerOnTurn]="playerOnTurn"/>
-
-<!-- <div id="selection" #selection></div> -->
+<app-player-display/>
+<app-turn-phase (onNextPhase)="nextPhase()" [phase]="this.gameService.game!.phase"/>
+<div id="selection" #selection></div>
+<app-canvas-map/>

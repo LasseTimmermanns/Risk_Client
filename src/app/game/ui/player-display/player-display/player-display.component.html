@@ -1,5 +1,5 @@
 <ul>
-    <li *ngFor="let displayPlayer of displayPlayers" [ngStyle]="{'border-color': displayPlayer.color.hex, 'border-width': (displayPlayer.id === playerOnTurn ? '20' : '10') + 'px'}">
+    <li *ngFor="let displayPlayer of playerDisplayService.displayPlayers" [ngStyle]="{'border-color': displayPlayer.color.hex, 'border-width': (displayPlayer.id === gameService.playerOnTurn?.id ? '20' : '10') + 'px'}">
         <div class="name">{{displayPlayer.name}}</div>
         <div class="troops">{{displayPlayer.troopCount}}</div>
         <div class="territories">{{displayPlayer.territoryCount}}</div>

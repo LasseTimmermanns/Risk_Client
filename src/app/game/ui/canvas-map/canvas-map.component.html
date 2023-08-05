@@ -1,0 +1,3 @@
+<canvas #gameMap (click)="clickHandler($event)" [ngStyle]="showContinentView ? {'display': 'none'} : {'display': 'block'}"></canvas>
+<canvas #continentOverlay [ngStyle]="showContinentView ? {'display': 'block'} : {'display': 'none'}"></canvas>
+<div (click)="onClick()">Clickme</div>
